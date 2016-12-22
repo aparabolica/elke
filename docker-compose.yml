@@ -16,4 +16,3 @@ elke:
     - 3000
   volumes:
     - .:/usr/src/app
-    - /usr/src/node_modules
