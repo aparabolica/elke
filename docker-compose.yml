@@ -1,0 +1,19 @@
+nginx:
+  build: ./nginx
+  links:
+    - elke:elke
+  ports:
+    - 8080:80
+    - 1935:1935
+  volumes:
+    - ./nginx/nginx.conf:/config/nginx.conf
+elke:
+  build: .
+  command: nodemon index.js
+  environment:
+    NODE_ENV: development
+  ports:
+    - 3000
+  volumes:
+    - .:/usr/src/app
+    - /usr/src/node_modules
