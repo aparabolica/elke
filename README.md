@@ -4,7 +4,7 @@
 
 ```
 $ docker build -t elke .
-$ docker run -p 8080:80 -p 1935:1935 -p 3000:3000 -d elke
+$ docker run -p 8080:80 -p 1935:1935 -d elke
 ```
 
 ## Access docker container
