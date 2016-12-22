@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+  <link href="http://vjs.zencdn.net/5.12.6/video-js.css" rel="stylesheet">
+  <script src="http://vjs.zencdn.net/5.12.6/video.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/4.0.2/videojs-contrib-hls.min.js"></script>
+  <style>
+    body,html,#player {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <video id="player" class="video-js vjs-default-skin" controls preload="none" autoplay>
+    <source src="http://localhost:8080/hls/test.m3u8" type="application/x-mpegURL" />
+  </video>
+  <script>
+    var player = videojs('#player');
+  </script>
+</body>
+</html>
