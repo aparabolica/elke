@@ -4,7 +4,6 @@ angular.module('elke')
   '$scope',
   '$feathers',
   function($scope, $feathers) {
-    var userService = $feathers.service('users');
     $scope.$watch(function() {
       return $feathers.get('user');
     }, function(user) {
@@ -12,17 +11,21 @@ angular.module('elke')
       $scope.user = user;
     });
     $scope.logout = $feathers.logout;
-    // userService.on('created', function(msg) {
-    //   console.log(msg);
-    // });
-    // userService.create({
-    //   email: 'john@doe.com',
-    //   password: 'unicorn'
-    // }).then(function (res) {
-    //   console.log(res)
-    // }).catch(function (err) {
-    //   console.error(err)
-    // });
+  }
+])
+
+.controller('HomeCtrl', [
+  '$scope',
+  '$state',
+  'App',
+  'Streamings',
+  function($scope, $state, App, Streamings) {
+    console.log(App);
+    if(!App.data.active) {
+      $state.go('auth', {register: true});
+    }
+    $scope.streamings = Streamings.data;
+    console.log(Streamings);
   }
 ])
 
@@ -30,9 +33,14 @@ angular.module('elke')
   '$scope',
   '$feathers',
   '$state',
-  function($scope, $feathers, $state) {
+  '$stateParams',
+  function($scope, $feathers, $state, $stateParams) {
+    var userService = $feathers.service('users');
+    if($stateParams.register) {
+      $scope.registration = true;
+    }
     $scope.credentials = {};
-    $scope.auth = function() {
+    var auth = function() {
       $feathers.authenticate({
         type: 'local',
         email: $scope.credentials.email,
@@ -42,6 +50,17 @@ angular.module('elke')
       }).catch(function(err) {
         console.error('Error authenticating', err);
       });
+    };
+    $scope.auth = function() {
+      if($scope.registration) {
+        userService.create($scope.credentials)
+          .then(auth)
+          .catch(function(err) {
+            console.log('Error creating user', err);
+          });
+      } else {
+        auth();
+      }
     }
   }
 ])

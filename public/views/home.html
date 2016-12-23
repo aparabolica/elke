@@ -4,5 +4,10 @@
       <h2>Own your video network</h2>
       <p><a class="button" ui-sref="streamEdit">Create new stream</a></p>
     </div>
+    <ul class="streaming-list">
+      <li ng-repeat="streaming in streamings">
+        <h3>{{streaming.title}}</h3>
+      </li>
+    </ul>
   </div>
 </div>

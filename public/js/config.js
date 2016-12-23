@@ -33,26 +33,38 @@ angular.module('elke')
     .state('home', {
       url: '/',
       templateUrl: '/views/home.html',
+      controller: 'HomeCtrl',
+      resolve: {
+        App: [
+          '$http',
+          function($http) {
+            return $http.get('/app');
+          }
+        ],
+        Streamings: [
+          '$feathers',
+          function($feathers) {
+            return $feathers.service('streamings').find();
+          }
+        ]
+      }
     })
     .state('auth', {
-      url: '/auth/',
+      url: '/auth/?register',
       controller: 'AuthCtrl',
       templateUrl: '/views/auth.html'
     })
     .state('stream', {
       url: '/streams/:id',
       controller: 'StreamCtrl',
-      templateUrl: '/views/stream/single.html',
-      resolve: {
-        Auth: auth
-      }
+      templateUrl: '/views/stream/single.html'
     })
     .state('streamEdit', {
       url: '/streams/edit/?id',
       controller: 'StreamCtrl',
       templateUrl: '/views/stream/edit.html',
       resolve: {
-        Auth: auth
+        // Auth: auth
       }
     });
 
