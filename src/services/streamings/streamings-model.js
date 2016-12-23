@@ -10,7 +10,7 @@ const Schema = mongoose.Schema;
 
 const streamingsSchema = new Schema({
   title: { type: String, required: true },
-  key: Schema.Types.ObjectId,
+  liveKey: { type: String },
   status: { type: String, lowercase: true, trim: true },
   createdAt: { type: Date, 'default': Date.now },
   updatedAt: { type: Date, 'default': Date.now }
