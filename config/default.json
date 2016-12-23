@@ -1,0 +1,12 @@
+{
+  "host": "localhost",
+  "port": 3030,
+  "mongodb": "mongodb://db:27017/elke",
+  "public": "../public/",
+  "auth": {
+    "token": {
+      "secret": "/pdFjU9aU7r38h2oViuWDm1YK9CeqtuYI+bEOcsJp4Ak1SS5Fa9TYWjGIMLjHai9WZE6wDgyoL9LLkbVeB33ZQ=="
+    },
+    "local": {}
+  }
+}

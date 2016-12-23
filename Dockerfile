@@ -1,6 +1,6 @@
 FROM ubuntu:trusty
 
-EXPOSE 3000
+EXPOSE 3030
 
 # update and upgrade packages
 RUN apt-get update && \
@@ -17,10 +17,10 @@ COPY . /usr/src/app
 RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 RUN apt-get install -y nodejs build-essential
 
-# Install nodemon
+# Install nodemon for development
 RUN npm install -g nodemon
 
 # Install app
 RUN npm install
 
-CMD ["nodemon", "index.js"]
+CMD ["node", "src/"]

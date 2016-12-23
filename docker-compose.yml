@@ -1,18 +1,26 @@
 nginx:
   build: ./nginx
   links:
-    - elke:elke
+    - elke
   ports:
     - 8080:80
     - 1935:1935
   volumes:
     - ./nginx/nginx.conf:/config/nginx.conf
+db:
+  image: mongo
+  ports:
+    - 27017:27017
+  volumes:
+    - .data/db:/data/db
 elke:
   build: .
-  command: nodemon index.js
+  links:
+    - db
+  command: nodemon src/
   environment:
     NODE_ENV: development
   ports:
-    - 3000
+    - 3030
   volumes:
     - .:/usr/src/app
