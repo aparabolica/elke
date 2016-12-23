@@ -22,6 +22,6 @@ RUN npm install -g nodemon bower
 
 # Install app
 RUN npm install
-RUN bower install
+RUN bower install --allow-root
 
 CMD ["node", "src/"]
