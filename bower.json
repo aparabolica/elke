@@ -1,0 +1,24 @@
+{
+  "name": "elke",
+  "description": "Own your video network",
+  "main": "src/",
+  "license": "MIT",
+  "keywords": [
+    "feathers"
+  ],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.6.1",
+    "angular-ui-router": "^0.3.2",
+    "ng-feathers": "^1.7.2",
+    "videojs-contrib-hls-bower": "^3.5.3",
+    "skeleton": "^2.0.4"
+  }
+}

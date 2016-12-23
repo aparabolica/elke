@@ -1,24 +1,41 @@
 <!doctype html>
 <html>
 <head>
-  <link href="http://vjs.zencdn.net/5.12.6/video-js.css" rel="stylesheet">
-  <script src="http://vjs.zencdn.net/5.12.6/video.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/4.0.2/videojs-contrib-hls.min.js"></script>
-  <style>
-    body,html,#player {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
-  </style>
+  <title>elke</title>
+  <link href="https://fonts.googleapis.com/css?family=Space+Mono:400,400i,700,700i" rel="stylesheet">
+  <link href="/assets/skeleton/css/normalize.css" rel="stylesheet">
+  <link href="/assets/skeleton/css/skeleton.css" rel="stylesheet">
+  <link href="/assets/videojs/dist/video-js.min.css" rel="stylesheet">
+  <link href="/styles/main.css" rel="stylesheet">
+  <!-- Angular -->
+  <script src="/assets/angular/angular.min.js"></script>
+  <script src="/assets/angular-ui-router/release/angular-ui-router.min.js"></script>
+  <script src="/assets/socket.io-client/socket.io.js"></script>
+  <script src="/assets/feathers-client/dist/feathers.min.js"></script>
+  <script src="/assets/ng-feathers/dist/ng-feathers.min.js"></script>
+  <!-- -->
+  <!-- Video -->
+  <script src="/assets/videojs/dist/video.min.js"></script>
+  <script src="/assets/videojs-contrib-hls-bower/videojs-contrib-hls.min.js"></script>
+  <!-- -->
+  <script src="/js/app.js"></script>
+  <script src="/js/config.js"></script>
+  <script src="/js/directives.js"></script>
+  <script src="/js/controllers.js"></script>
 </head>
-<body>
-  <video id="player" class="video-js vjs-default-skin" controls preload="none" autoplay>
-    <source src="http://localhost:8080/hls/test.m3u8" type="application/x-mpegURL" />
-  </video>
-  <script>
-    var player = videojs('#player');
-  </script>
+<body style="display:none;" ng-controller="AppCtrl">
+  <header id="masthead">
+    <div class="container">
+      <h1 class="brand">
+        <a ui-sref="home">elke</a>
+      </h1>
+      <nav id="mastnav">
+        <a ui-sref="auth" ng-hide="user">Login</a>
+        <a ui-sref="streamEdit" ng-show="user">Stream</a>
+        <a ng-click="logout()" href="javascript:void();" ng-show="user">Logout</a>
+      </nav>
+    </div>
+  </header>
+  <div ui-view></div>
 </body>
 </html>
