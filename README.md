@@ -12,9 +12,9 @@ This project uses [Feathers](http://feathersjs.com). An open source web framewor
 
 Build and run from docker
 
-    ```
-    $ docker-compose up
-    ```
+```
+$ docker-compose up
+```
 
 ## Scaffolding
 
