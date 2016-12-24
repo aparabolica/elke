@@ -16,7 +16,7 @@ var createLiveKey = function(options = {}) {
 var authData = function(options = {}) {
   return function(hook) {
     // Should remove liveKey for non-logged in users
-    console.log(hook.params.user);
+    // console.log(hook.params.user);
     return hook;
   }
 }

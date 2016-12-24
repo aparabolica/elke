@@ -27,6 +27,7 @@ module.exports = function() {
         }
       }).then(function(res) {
         if(res.data.length) {
+          console.log('ok');
           // Not working
           res.sendStatus(200);
         } else {

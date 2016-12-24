@@ -23,4 +23,6 @@ elke:
   ports:
     - 3030
   volumes:
-    - .:/usr/src/app
+    - .:/home/app/elke
+    - /home/app/elke/node_modules
+    - /home/app/elke/bower_components
