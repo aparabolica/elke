@@ -1,6 +1,6 @@
 'use strict';
 
-// streamings-model.js - A mongoose model
+// streaming-model.js - A mongoose model
 //
 // See http://mongoosejs.com/docs/models.html
 // for more of what you can do here.
@@ -8,14 +8,19 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const streamingsSchema = new Schema({
+const streamingSchema = new Schema({
   title: { type: String, required: true },
+  status: {
+    type: String,
+    enum: ['pending', 'live', 'finished'],
+    default: 'pending'
+  },
   liveKey: { type: String },
-  status: { type: String, lowercase: true, trim: true },
+  streamName: { type: String },
   createdAt: { type: Date, 'default': Date.now },
   updatedAt: { type: Date, 'default': Date.now }
 });
 
-const streamingsModel = mongoose.model('streamings', streamingsSchema);
+const streamingModel = mongoose.model('streaming', streamingSchema);
 
-module.exports = streamingsModel;
+module.exports = streamingModel;

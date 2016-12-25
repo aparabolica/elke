@@ -6,7 +6,7 @@
         <input type="password" ng-model="credentials.password" placeholder="Password" />
         <input type="submit" ng-hide="registration" value="Authenticate" />
         <input type="submit" ng-show="registration" value="Register" />
-        <p>
+        <p ng-hide="app.active">
           <a ui-sref="auth({register:true})" ng-hide="registration">Register</a>
           <a ui-sref="auth({register:null})" ng-show="registration">Login</a>
         </p>

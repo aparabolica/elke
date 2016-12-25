@@ -1,5 +1,5 @@
 'use strict';
-const streamings = require('./streamings');
+const streaming = require('./streaming');
 const authentication = require('./authentication');
 const user = require('./user');
 const mongoose = require('mongoose');
@@ -11,5 +11,5 @@ module.exports = function() {
 
   app.configure(authentication);
   app.configure(user);
-  app.configure(streamings);
+  app.configure(streaming);
 };

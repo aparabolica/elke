@@ -17,9 +17,29 @@ angular.module('elke')
   function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
 
     var auth = [
+      '$q',
       '$feathers',
-      function($feathers) {
-        return $feathers.authenticate();
+      function($q, $feathers) {
+        var deferred = $q.defer();
+        $feathers.authenticate().then(function(res) {
+          console.log(res);
+          deferred.resolve(res);
+        }).catch(function(err) {
+          deferred.resolve(false);
+        })
+        return deferred.promise;
+      }
+    ];
+
+    var isAuth = [
+      '$q',
+      'Auth',
+      function($q, Auth) {
+        if(Auth) {
+          return true;
+        } else {
+          return $q.reject('Not logged in');
+        }
       }
     ];
 
@@ -30,10 +50,9 @@ angular.module('elke')
     $locationProvider.hashPrefix('!');
 
     $stateProvider
-    .state('home', {
-      url: '/',
-      templateUrl: '/views/home.html',
-      controller: 'HomeCtrl',
+    .state('main', {
+      abstract: true,
+      template: '<ui-view/>',
       resolve: {
         App: [
           '$http',
@@ -41,31 +60,40 @@ angular.module('elke')
             return $http.get('/app');
           }
         ],
+        Auth: auth
+      }
+    })
+    .state('main.home', {
+      url: '/',
+      templateUrl: '/views/home.html',
+      controller: 'HomeCtrl',
+      resolve: {
         Streamings: [
           '$feathers',
+          'Auth',
           function($feathers) {
             return $feathers.service('streamings').find();
           }
         ]
       }
     })
-    .state('auth', {
+    .state('main.auth', {
       url: '/auth/?register',
       controller: 'AuthCtrl',
       templateUrl: '/views/auth.html'
     })
-    .state('stream', {
-      url: '/streams/:id',
-      controller: 'StreamCtrl',
-      templateUrl: '/views/stream/single.html'
-    })
-    .state('streamEdit', {
+    .state('main.streamEdit', {
       url: '/streams/edit/?id',
       controller: 'StreamCtrl',
       templateUrl: '/views/stream/edit.html',
       resolve: {
-        // Auth: auth
+        isAuth: isAuth
       }
+    })
+    .state('main.stream', {
+      url: '/streams/:id/',
+      controller: 'StreamCtrl',
+      templateUrl: '/views/stream/single.html'
     });
 
     /*

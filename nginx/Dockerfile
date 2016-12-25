@@ -3,8 +3,12 @@ FROM ubuntu:trusty
 EXPOSE 1935
 EXPOSE 80
 
+RUN useradd --user-group --create-home --shell /bin/false www
+
 # create directories
-RUN mkdir -p /src /config /logs /data /static
+RUN mkdir -p /src /config /logs /data
+
+RUN chown -R www:www /data
 
 # update and upgrade packages
 RUN apt-get update && \
@@ -34,7 +38,9 @@ RUN wget http://nginx.org/download/nginx-1.10.2.tar.gz && \
 # compile nginx
 WORKDIR /src/nginx-1.10.2
 RUN ./configure --add-module=/src/nginx-rtmp-module-1.1.10 \
+  --user=www \
   --with-file-aio \
+  --with-debug \
   --conf-path=/config/nginx.conf \
   --error-log-path=/logs/error.log \
   --http-log-path=/logs/access.log && \

@@ -2,12 +2,29 @@
   <div class="container">
     <div class="twelve columns">
       <h2>Own your video network</h2>
-      <p><a class="button" ui-sref="streamEdit">Create new stream</a></p>
+      <p><a class="button" ui-sref="main.streamEdit">Create new stream</a></p>
     </div>
-    <ul class="streaming-list">
-      <li ng-repeat="streaming in streamings">
-        <h3>{{streaming.title}}</h3>
-      </li>
-    </ul>
   </div>
 </div>
+<section id="streamings" ng-show="streamings.length">
+  <div class="container">
+    <div class="twelve columns">
+      <h2>Streamings</h2>
+      <ul class="streaming-list" ng-controller="StreamCtrl">
+        <li ng-repeat="streaming in streamings">
+          <h3>{{streaming.title}}</h3>
+          <p>Status: {{streaming.status}}</p>
+          <div class="stream-info" ng-show="streaming.status == 'live'">
+            <p>Streaming url: {{getStreamURL(streaming)}}</p>
+            <p>Stream name: {{streaming.streamName}}</p>
+          </div>
+          <a ng-click="deleteStream(streaming)" href="javascript:void(0);">Delete</a>
+          <a ng-click="goLive(streaming)" href="javascript:void(0);" ng-show="streaming.status == 'pending'">Go live</a>
+          <video class="video-js vjs-default-skin" controls preload="auto"
+             width="592" height="252" vjs-video vjs-media="getMedia(streaming)" ng-hide="streaming.status == 'pending'">
+          </video>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>

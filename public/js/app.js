@@ -1,16 +1,8 @@
 angular.module('elke', [
   'ui.router',
-  'ngFeathers'
+  'ngFeathers',
+  'vjs.video'
 ])
-
-.run([
-  '$rootScope',
-  '$state',
-  '$feathers',
-  function($rootScope, $state, $feathers) {
-    $feathers.authenticate().then($rootScope.digest);
-  }
-]);
 
 angular.element(document).ready(function() {
   if(self != top) {

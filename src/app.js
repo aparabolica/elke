@@ -23,20 +23,6 @@ app.use(compress())
   .use(cors())
   .use(favicon( path.join(app.get('public'), 'favicon.ico') ))
   .use('/', serveStatic( app.get('public') ))
-  .use('/styles', require('express-less')( 'public/styles', {compress: true}))
-  .use('/assets', serveStatic( 'bower_components', {maxAge: 31536000} ))
-  .use('/app', function(req, res) {
-    var appStatus = {
-      active: true
-    };
-    var userService = app.service('users');
-    userService.find({$limit: 1}).then(function(users) {
-      if(users.total == 0) {
-        appStatus.active = false;
-      }
-      res.send(appStatus);
-    });
-  })
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: true }))
   .configure(hooks())

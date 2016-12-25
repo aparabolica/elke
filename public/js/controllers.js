@@ -17,15 +17,46 @@ angular.module('elke')
 .controller('HomeCtrl', [
   '$scope',
   '$state',
+  '$feathers',
   'App',
   'Streamings',
-  function($scope, $state, App, Streamings) {
-    console.log(App);
+  function($scope, $state, $feathers, App, Streamings) {
     if(!App.data.active) {
-      $state.go('auth', {register: true});
+      $state.go('main.auth', {register: true});
     }
+    var streamingService = $feathers.service('streamings');
     $scope.streamings = Streamings.data;
-    console.log(Streamings);
+
+    streamingService.on('created', function(data) {
+      $scope.$apply(function() {
+        $scope.streamings.push(data);
+      });
+    });
+    streamingService.on('removed', function(data) {
+      $scope.$apply(function() {
+        $scope.streamings = _.filter($scope.streamings, function(streaming) {
+          return streaming._id !== data._id;
+        });
+      });
+    });
+    streamingService.on('updated', function(data) {
+      $scope.$apply(function() {
+        $scope.streamings.forEach(function(streaming, i) {
+          if(streaming._id == data._id) {
+            $scope.streamings[i] = data;
+          }
+        });
+      });
+    });
+    streamingService.on('patched', function(data) {
+      $scope.$apply(function() {
+        $scope.streamings.forEach(function(streaming, i) {
+          if(streaming._id == data._id) {
+            $scope.streamings[i] = data;
+          }
+        });
+      });
+    });
   }
 ])
 
@@ -34,8 +65,10 @@ angular.module('elke')
   '$feathers',
   '$state',
   '$stateParams',
-  function($scope, $feathers, $state, $stateParams) {
+  'App',
+  function($scope, $feathers, $state, $stateParams, App) {
     var userService = $feathers.service('users');
+    $scope.app = App.data;
     if($stateParams.register) {
       $scope.registration = true;
     }
@@ -46,7 +79,7 @@ angular.module('elke')
         email: $scope.credentials.email,
         password: $scope.credentials.password
       }).then(function(res) {
-        $state.go('home');
+        $state.go('main.home', {}, {reload:true});
       }).catch(function(err) {
         console.error('Error authenticating', err);
       });
@@ -67,16 +100,52 @@ angular.module('elke')
 
 .controller('StreamCtrl', [
   '$scope',
+  '$state',
   '$feathers',
-  function($scope, $feathers) {
+  function($scope, $state, $feathers) {
     var service = $feathers.service('streamings');
     $scope.streaming = {};
     $scope.createStream = function() {
       service.create($scope.streaming).then(function(res) {
         console.log('streaming created', res);
+        $state.go('main.home');
       }).catch(function(err) {
         console.log(err);
       });
     };
+    $scope.deleteStream = function(streaming) {
+      service.remove(streaming._id);
+    };
+    $scope.goLive = function(streaming) {
+      service.patch(streaming._id, {status: 'live'});
+    };
+    $scope.getStreamURL = function(streaming) {
+      return 'rtmp://localhost/live?key=' + streaming.liveKey;
+    }
+    $scope.getMedia = _.memoize(function(streaming) {
+      var media;
+      if(streaming.status == 'live') {
+        media = {
+          sources: [
+            {
+              src: 'http://localhost:8080/hls/' + streaming.streamName + '.m3u8',
+              type: 'application/x-mpegURL'
+            }
+          ]
+        };
+      } else {
+        media = {
+          sources: [
+            {
+              src: '/videos/' + streaming.streamName + '_hd720.flv',
+              type: 'video/x-flv'
+            }
+          ]
+        };
+      }
+      return media;
+    }, function() {
+      return JSON.stringify(arguments);
+    });
   }
 ]);

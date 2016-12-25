@@ -19,6 +19,8 @@
     "angular-ui-router": "^0.3.2",
     "ng-feathers": "^1.7.2",
     "videojs-contrib-hls-bower": "^3.5.3",
-    "skeleton": "^2.0.4"
+    "skeleton": "^2.0.4",
+    "underscore": "^1.8.3",
+    "vjs-video": "^0.1.6"
   }
 }
