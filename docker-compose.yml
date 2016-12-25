@@ -20,8 +20,6 @@ elke:
   command: nodemon src/
   environment:
     NODE_ENV: development
-  ports:
-    - 3030
   volumes:
     - .:/home/app/elke
     - /home/app/elke/node_modules
