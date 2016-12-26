@@ -20,9 +20,10 @@
           </div>
           <a ng-click="deleteStream(streaming)" href="javascript:void(0);">Delete</a>
           <a ng-click="goLive(streaming)" href="javascript:void(0);" ng-show="streaming.status == 'pending'">Go live</a>
-          <video class="video-js vjs-default-skin" controls preload="auto"
-             width="592" height="252" vjs-video vjs-media="getMedia(streaming)" ng-hide="streaming.status == 'pending'">
-          </video>
+          <vjs-video-container vjs-ratio="16:9" vjs-media="getMedia(streaming)">
+            <video class="video-js vjs-default-skin" controls preload="auto">
+            </video>
+          </vjs-video-container>
         </li>
       </ul>
     </div>

@@ -21,6 +21,8 @@
     "videojs-contrib-hls-bower": "^3.5.3",
     "skeleton": "^2.0.4",
     "underscore": "^1.8.3",
-    "vjs-video": "^0.1.6"
+    "vjs-video": "^0.1.6",
+    "dashjs": "^2.4.0",
+    "videojs-contrib-dash-dist": "^2.5.4"
   }
 }

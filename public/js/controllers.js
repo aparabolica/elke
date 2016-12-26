@@ -124,16 +124,24 @@ angular.module('elke')
     }
     $scope.getMedia = _.memoize(function(streaming) {
       var media;
-      if(streaming.status == 'live') {
+      if(streaming.status == 'streaming') {
         media = {
           sources: [
             {
-              src: 'http://localhost:8080/hls/' + streaming.streamName + '.m3u8',
+              src: 'http://localhost:8080/live/hls/' + streaming.streamName + '.m3u8',
               type: 'application/x-mpegURL'
-            }
+            },
+            // {
+            //   src: 'http://localhost:8080/live/dash/' + streaming.streamName + '_high/index.mpd',
+            //   type: 'application/dash+xml'
+            // },
+            // {
+            //   src: 'rtmp://localhost/show/flv:' + streaming.streamName + '_high',
+            //   type: 'rtmp/mp4'
+            // }
           ]
         };
-      } else {
+      } else if(streaming.status = 'finished') {
         media = {
           sources: [
             {

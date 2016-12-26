@@ -34,7 +34,11 @@ module.exports = function() {
         }
       }).then(function(queryRes) {
         if(queryRes.data.length) {
-          res.sendStatus(200);
+          service.patch(queryRes.data[0]._id, {status: 'streaming'}).then(function() {
+            res.sendStatus(200);
+          }).catch(function() {
+            res.sendStatus(403);
+          });
         } else {
           res.sendStatus(403);
         }
@@ -54,8 +58,7 @@ module.exports = function() {
       service.find({
         query: {
           liveKey: key,
-          streamName: req.body.name,
-          status: 'live'
+          streamName: req.body.name
         }
       }).then(function(queryRes) {
         service.patch(queryRes.data[0]._id, {status: 'finished'});
