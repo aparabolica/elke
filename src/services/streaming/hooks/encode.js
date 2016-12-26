@@ -83,7 +83,7 @@ module.exports = () => hooks => {
         .run();
     });
   };
-  const copyOriginal = () => {
+  const moveOriginal = () => {
     return new Promise((resolve,reject) => {
       exec('mv ' + dir + '/' + getName() + '.flv ' + dir + '/' + getName() + '/', (err, stdout, stderr) => {
         if(err !== null) {
@@ -107,7 +107,7 @@ module.exports = () => hooks => {
       .then(getStreaming)
       .then(createDir)
       .then(encode)
-      .then(copyOriginal)
+      .then(moveOriginal)
       .then(res)
       .catch(res);
   }
