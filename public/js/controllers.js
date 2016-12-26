@@ -141,7 +141,7 @@ angular.module('elke')
             // }
           ]
         };
-      } else if(streaming.status = 'finished') {
+      } else if(streaming.status == 'finished') {
         media = {
           sources: [
             {
