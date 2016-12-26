@@ -18,12 +18,14 @@
             <p>Streaming url: {{getStreamURL(streaming)}}</p>
             <p>Stream name: {{streaming.streamName}}</p>
           </div>
-          <a ng-click="deleteStream(streaming)" href="javascript:void(0);">Delete</a>
+          <a ng-click="deleteStream(streaming)" href="javascript:void(0);" ng-hide="streaming.status == 'streaming'">Delete</a>
           <a ng-click="goLive(streaming)" href="javascript:void(0);" ng-show="streaming.status == 'pending'">Go live</a>
-          <vjs-video-container vjs-ratio="16:9" vjs-media="getMedia(streaming)">
-            <video class="video-js vjs-default-skin" controls preload="auto">
-            </video>
-          </vjs-video-container>
+          <div class="video-container" ng-show="streaming.status == 'streaming' || streaming.status == 'finished'">
+            <vjs-video-container vjs-ratio="16:9" vjs-media="getMedia(streaming)">
+              <video class="video-js vjs-default-skin" controls preload="auto">
+              </video>
+            </vjs-video-container>
+          </div>
         </li>
       </ul>
     </div>
