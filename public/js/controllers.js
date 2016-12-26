@@ -145,7 +145,7 @@ angular.module('elke')
         media = {
           sources: [
             {
-              src: '/videos/' + streaming.streamName + '_hd720.flv',
+              src: '/videos/' + streaming.streamName + '.flv',
               type: 'video/x-flv'
             }
           ]
