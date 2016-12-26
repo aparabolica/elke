@@ -12,7 +12,14 @@ const streamingSchema = new Schema({
   title: { type: String, required: true },
   status: {
     type: String,
-    enum: ['pending', 'live', 'streaming', 'finished'],
+    enum: [
+      'pending',
+      'live',
+      'streaming',
+      'finished',
+      'encoding',
+      'encoded'
+    ],
     default: 'pending'
   },
   liveKey: { type: String },

@@ -15,12 +15,14 @@
           <h3>{{streaming.title}}</h3>
           <p>Status: {{streaming.status}}</p>
           <div class="stream-info" ng-show="streaming.status == 'live'">
-            <p>Streaming url: {{getStreamURL(streaming)}}</p>
-            <p>Stream name: {{streaming.streamName}}</p>
+            <p>Streaming url:</p>
+            <pre><code>{{getStreamURL(streaming)}}</code></pre>
+            <p>Stream name:</p>
+            <pre><code>{{streaming.streamName}}</code></pre>
           </div>
           <a ng-click="deleteStream(streaming)" href="javascript:void(0);" ng-hide="streaming.status == 'streaming'">Delete</a>
           <a ng-click="goLive(streaming)" href="javascript:void(0);" ng-show="streaming.status == 'pending'">Go live</a>
-          <div class="video-container" ng-show="streaming.status == 'streaming' || streaming.status == 'finished'">
+          <div class="video-container" ng-show="streaming.status == 'streaming' || streaming.status == 'encoded'">
             <vjs-video-container vjs-ratio="16:9" vjs-media="getMedia(streaming)">
               <video class="video-js vjs-default-skin" controls preload="auto">
               </video>

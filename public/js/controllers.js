@@ -131,22 +131,22 @@ angular.module('elke')
               src: 'http://localhost:8080/live/hls/' + streaming.streamName + '.m3u8',
               type: 'application/x-mpegURL'
             },
-            // {
-            //   src: 'http://localhost:8080/live/dash/' + streaming.streamName + '_high/index.mpd',
-            //   type: 'application/dash+xml'
-            // },
-            // {
-            //   src: 'rtmp://localhost/show/flv:' + streaming.streamName + '_high',
-            //   type: 'rtmp/mp4'
-            // }
+            {
+              src: 'http://localhost:8080/live/dash/' + streaming.streamName + '_high/index.mpd',
+              type: 'application/dash+xml'
+            },
+            {
+              src: 'rtmp://localhost/show/flv:' + streaming.streamName + '_high',
+              type: 'rtmp/mp4'
+            }
           ]
         };
-      } else if(streaming.status == 'finished') {
+      } else if(streaming.status == 'encoded') {
         media = {
           sources: [
             {
-              src: '/videos/' + streaming.streamName + '.flv',
-              type: 'video/x-flv'
+              src: '/videos/' + streaming.streamName + '/720p.mp4',
+              type: 'video/mp4'
             }
           ]
         };

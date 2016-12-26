@@ -51,6 +51,10 @@ module.exports = function() {
   });
 
   app.use('/streamings/control/publish_done', function(req, res, next) {
+    res.sendStatus(200);
+  });
+
+  app.use('/streamings/control/record_done', function(req, res, next) {
     var service = app.service('streamings');
     if(req.body.swfurl && req.body.name) {
       var parts = url.parse(req.body.swfurl, true);
@@ -68,12 +72,6 @@ module.exports = function() {
         res.sendStatus(200);
       });
     }
-  });
-
-  app.use('/streamings/control/record_done', function(req, res, next) {
-    console.log('record done');
-    console.log(req.body);
-    res.sendStatus(200);
   });
 
   // Initialize our service with any options it requires

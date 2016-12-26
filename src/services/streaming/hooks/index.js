@@ -4,6 +4,7 @@ const globalHooks = require('../../../hooks');
 const hooks = require('feathers-hooks-common');
 const auth = require('feathers-authentication').hooks;
 const handleStatus = require('./handle-status');
+const encode = require('./encode');
 
 exports.before = {
   all: [],
@@ -27,7 +28,8 @@ exports.before = {
     auth.restrictToAuthenticated(),
     handleStatus(),
     hooks.remove('liveKey'),
-    hooks.remove('streamName')
+    hooks.remove('streamName'),
+    encode()
   ],
   remove: [
     auth.verifyToken(),
