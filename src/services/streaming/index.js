@@ -58,13 +58,13 @@ module.exports = function() {
       service.find({
         query: {
           liveKey: key,
-          streamName: req.body.name
+          streamName: req.body.name,
+          status: 'streaming'
         }
       }).then(function(queryRes) {
         service.patch(queryRes.data[0]._id, {status: 'finished'});
         res.sendStatus(200);
       }).catch(function(err) {
-        console.log('error on publish done');
         res.sendStatus(200);
       });
     }
