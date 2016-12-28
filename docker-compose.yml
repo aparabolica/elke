@@ -7,13 +7,13 @@ nginx:
     - 1935:1935
   volumes:
     - ./nginx/nginx.conf:/config/nginx.conf
-    - ./.data/video:/data
+    - ./data/video:/data
 db:
   image: mongo
   ports:
     - 27017:27017
   volumes:
-    - ./.data/db:/data/db
+    - ./data/db:/data/db
 elke:
   build: .
   links:
@@ -25,4 +25,4 @@ elke:
     - .:/home/app/elke
     - /home/app/elke/node_modules
     - /home/app/elke/bower_components
-    - ./.data/video:/data
+    - ./data/video:/data

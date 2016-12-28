@@ -29,4 +29,4 @@ bower_components
 .lock-wscript
 
 lib/
-.data/
+data/
