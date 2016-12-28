@@ -1,4 +1,4 @@
-FROM node:6.9.2
+FROM node:7.3.0
 
 EXPOSE 3030
 
@@ -28,7 +28,7 @@ RUN mkdir /data
 # Install app
 RUN npm install && \
   bower install -F --allow-root && \
-  chown -R app:app $HOME/elke
+  chown -R $APP_USER:$APP_USER $HOME/elke
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
