@@ -4,9 +4,9 @@ EXPOSE 1935
 EXPOSE 80
 
 RUN useradd --user-group --create-home --shell /bin/false www
-
 # Create directories
 RUN mkdir -p /src /config /logs /data
+VOLUME /data
 
 # Update and upgrade packages
 RUN apt-get update && \

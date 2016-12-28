@@ -23,8 +23,9 @@ COPY package.json bower.json $HOME/elke/
 RUN chown -R app:app $HOME/*
 
 # Create video data directory and assign permissions
-RUN mkdir -p /data && \
-  chown -R app:app /data
+RUN mkdir /data
+VOLUME /data
+RUN chown -R app:app /data
 
 # Change user to app
 USER app
