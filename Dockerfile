@@ -10,10 +10,6 @@ RUN echo "deb http://www.deb-multimedia.org jessie main non-free" >> /etc/apt/so
 # Add app user
 RUN useradd --user-group --create-home --shell /bin/false app
 
-# Create video data directory and assign permissions
-RUN mkdir -p /data && \
-  chown -R app:app /data
-
 # Setup env
 ENV HOME=/home/app
 ENV DATA=/data
@@ -25,6 +21,10 @@ RUN npm install -g nodemon bower
 WORKDIR $HOME/elke
 COPY package.json bower.json $HOME/elke/
 RUN chown -R app:app $HOME/*
+
+# Create video data directory and assign permissions
+RUN mkdir -p /data && \
+  chown -R app:app /data
 
 # Change user to app
 USER app

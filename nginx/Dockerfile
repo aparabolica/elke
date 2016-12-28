@@ -5,10 +5,8 @@ EXPOSE 80
 
 RUN useradd --user-group --create-home --shell /bin/false www
 
-# create directories
+# Create directories
 RUN mkdir -p /src /config /logs /data
-
-RUN chown -R www:www /data
 
 # Update and upgrade packages
 RUN apt-get update && \
@@ -50,6 +48,9 @@ RUN ./configure --add-module=/src/nginx-rtmp-module-1.1.10 \
 
 # Add nginx config file
 ADD nginx.conf /config/nginx.conf
+
+# Data directory permissions to www user/group
+RUN chown -R www:www /data
 
 # Run nginx server
 CMD "nginx"
