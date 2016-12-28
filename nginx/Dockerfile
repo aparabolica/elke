@@ -3,7 +3,12 @@ FROM ubuntu:trusty
 EXPOSE 1935
 EXPOSE 80
 
-RUN useradd --user-group --create-home --shell /bin/false www
+ENV DATA=/data
+ENV WWW_USER=www
+
+# Add www user
+RUN useradd --user-group --shell /bin/bash www
+
 # Create directories
 RUN mkdir -p /src /config /logs /data
 VOLUME /data
@@ -49,8 +54,9 @@ RUN ./configure --add-module=/src/nginx-rtmp-module-1.1.10 \
 # Add nginx config file
 ADD nginx.conf /config/nginx.conf
 
-# Data directory permissions to www user/group
-RUN chown -R www:www /data
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
 
 # Run nginx server
-CMD "nginx"
+CMD "/usr/bin/nginx"

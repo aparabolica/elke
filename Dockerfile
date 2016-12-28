@@ -8,9 +8,10 @@ RUN echo "deb http://www.deb-multimedia.org jessie main non-free" >> /etc/apt/so
   apt-get -q update && apt-get -q -y install ffmpeg
 
 # Add app user
-RUN useradd --user-group --create-home --shell /bin/false app
+RUN useradd --user-group --create-home --shell /bin/bash app
 
 # Setup env
+ENV APP_USER=app
 ENV HOME=/home/app
 ENV DATA=/data
 
@@ -20,19 +21,18 @@ RUN npm install -g nodemon bower
 # Copy config files and assign app directory permissions
 WORKDIR $HOME/elke
 COPY package.json bower.json $HOME/elke/
-RUN chown -R app:app $HOME/*
 
 # Create video data directory and assign permissions
 RUN mkdir /data
-VOLUME /data
-RUN chown -R app:app /data
-
-# Change user to app
-USER app
 
 # Install app
-RUN npm install
-RUN bower install -F
+RUN npm install && \
+  bower install -F --allow-root && \
+  chown -R app:app $HOME/elke
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
 
 # Run node server
 CMD ["node", "src/"]
