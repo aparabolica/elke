@@ -22,7 +22,7 @@ elke:
   environment:
     NODE_ENV: development
   volumes:
-    - .:/home/app/elke
-    - /home/app/elke/node_modules
-    - /home/app/elke/bower_components
+    - .:/home/node/elke
+    - /home/node/elke/node_modules
+    - /home/node/elke/bower_components
     - ./data/video:/data

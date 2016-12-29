@@ -1,4 +1,6 @@
 #!/bin/bash
 set -e
-chown -R $WWW_USER:$WWW_USER $DATA
+if [ "$1" = 'nginx' ]; then
+  chown -R $WWW_USER:$WWW_USER $DATA
+fi
 exec "$@"
