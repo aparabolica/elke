@@ -90,13 +90,33 @@ angular.module('elke')
       controller: 'StreamCtrl',
       templateUrl: '/views/stream/edit.html',
       resolve: {
-        isAuth: isAuth
+        isAuth: isAuth,
+        Streaming: [
+          '$feathers',
+          '$stateParams',
+          function($feathers, $stateParams) {
+            if($stateParams.id)
+              return $feathers.service('streamings').get($stateParams.id);
+            else
+              return {};
+          }
+        ]
       }
     })
     .state('main.stream', {
       url: '/streams/:id/',
       controller: 'StreamCtrl',
-      templateUrl: '/views/stream/single.html'
+      templateUrl: '/views/stream/single.html',
+      resolve: {
+        Streaming: [
+          '$feathers',
+          '$stateParams',
+          'Auth',
+          function($feathers, $stateParams) {
+            return $feathers.service('streamings').get($stateParams.id);
+          }
+        ]
+      }
     });
 
     /*

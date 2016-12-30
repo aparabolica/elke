@@ -25,7 +25,6 @@ angular.module('elke')
     }
     var streamingService = $feathers.service('streamings');
     $scope.streamings = Streamings.data;
-
     streamingService.on('created', function(data) {
       $scope.$apply(function() {
         $scope.streamings.push(data);
@@ -101,9 +100,10 @@ angular.module('elke')
   '$scope',
   '$state',
   '$feathers',
-  function($scope, $state, $feathers) {
+  'Streaming',
+  function($scope, $state, $feathers, Streaming) {
     var service = $feathers.service('streamings');
-    $scope.streaming = {};
+    $scope.streaming = Streaming;
     $scope.createStream = function() {
       service.create($scope.streaming).then(function(res) {
         $state.go('main.home');

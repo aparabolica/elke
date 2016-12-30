@@ -10,6 +10,7 @@ const Schema = mongoose.Schema;
 
 const streamingSchema = new Schema({
   title: { type: String, required: true },
+  description: { type: String },
   status: {
     type: String,
     enum: [

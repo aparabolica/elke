@@ -12,6 +12,7 @@
             <pre><code>{{streaming.streamName}}</code></pre>
           </div>
         </div>
+        <a ui-sref="main.stream({id: streaming._id})">Details</a>
         <a ng-click="deleteStream(streaming)" href="javascript:void(0);" ng-hide="streaming.status == 'streaming'">Delete</a>
         <a ng-click="goLive(streaming)" href="javascript:void(0);" ng-show="streaming.status == 'pending'">Go live</a>
       </div>

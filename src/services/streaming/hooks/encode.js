@@ -28,9 +28,7 @@ module.exports = () => hooks => {
       service.get(hooks.id).then(data => {
         streaming = data;
         resolve();
-      }).catch(err => {
-        reject(err);
-      });
+      }).catch(reject);
     });
   };
   const createDir = () => {
