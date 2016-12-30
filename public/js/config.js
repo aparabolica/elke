@@ -22,7 +22,6 @@ angular.module('elke')
       function($q, $feathers) {
         var deferred = $q.defer();
         $feathers.authenticate().then(function(res) {
-          console.log(res);
           deferred.resolve(res);
         }).catch(function(err) {
           deferred.resolve(false);
@@ -72,7 +71,11 @@ angular.module('elke')
           '$feathers',
           'Auth',
           function($feathers) {
-            return $feathers.service('streamings').find();
+            return $feathers.service('streamings').find({
+              query: {
+                $sort: { createdAt: -1 }
+              }
+            });
           }
         ]
       }

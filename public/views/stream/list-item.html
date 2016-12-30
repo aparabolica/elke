@@ -1,0 +1,23 @@
+<div class="streaming-item">
+  <div class="container">
+    <div class="six columns">
+      <div class="streaming-info">
+        <p class="status" ng-hide="streaming.status == 'encoded'">{{streaming.status}}</p>
+        <h3>{{streaming.title}}</h3>
+        <div class="stream-data-container" ng-show="streaming.status == 'live'">
+          <div class="stream-data">
+            <p>Streaming url:</p>
+            <pre><code>{{getStreamURL(streaming)}}</code></pre>
+            <p>Stream name:</p>
+            <pre><code>{{streaming.streamName}}</code></pre>
+          </div>
+        </div>
+        <a ng-click="deleteStream(streaming)" href="javascript:void(0);" ng-hide="streaming.status == 'streaming'">Delete</a>
+        <a ng-click="goLive(streaming)" href="javascript:void(0);" ng-show="streaming.status == 'pending'">Go live</a>
+      </div>
+    </div>
+    <div class="six columns">
+      <div class="streaming-player" elke-player streaming="streaming"></div>
+    </div>
+  </div>
+</div>

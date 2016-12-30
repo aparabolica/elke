@@ -48,6 +48,13 @@ a {
   }
 }
 
+.container {
+  max-width: 1280px;
+  .container {
+    width: auto;
+  }
+}
+
 .hero {
   padding: 4rem 0;
   text-align: center;
@@ -58,6 +65,35 @@ a {
   textarea {
     display: block;
     width: 100%;
+  }
+}
+
+.streaming-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  li {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.streaming-item {
+  border: 1px solid #333;
+  margin: 0 0 2rem;
+  position: relative;
+  .streaming-info {
+    padding: 2rem 0 2rem 2rem;
+  }
+  .status {
+    float: right;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    line-height: 1;
+  }
+  h3 {
+    font-size: 2em;
+    margin: 0 0 2rem;
   }
 }
 

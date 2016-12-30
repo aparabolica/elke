@@ -7,7 +7,6 @@ angular.module('elke')
     $scope.$watch(function() {
       return $feathers.get('user');
     }, function(user) {
-      console.log(user);
       $scope.user = user;
     });
     $scope.logout = $feathers.logout;
@@ -107,53 +106,10 @@ angular.module('elke')
     $scope.streaming = {};
     $scope.createStream = function() {
       service.create($scope.streaming).then(function(res) {
-        console.log('streaming created', res);
         $state.go('main.home');
       }).catch(function(err) {
         console.log(err);
       });
     };
-    $scope.deleteStream = function(streaming) {
-      service.remove(streaming._id);
-    };
-    $scope.goLive = function(streaming) {
-      service.patch(streaming._id, {status: 'live'});
-    };
-    $scope.getStreamURL = function(streaming) {
-      return 'rtmp://localhost/live?key=' + streaming.liveKey;
-    }
-    $scope.getMedia = _.memoize(function(streaming) {
-      var media;
-      if(streaming.status == 'streaming') {
-        media = {
-          sources: [
-            {
-              src: 'http://localhost:8080/live/hls/' + streaming.streamName + '.m3u8',
-              type: 'application/x-mpegURL'
-            },
-            {
-              src: 'http://localhost:8080/live/dash/' + streaming.streamName + '_high/index.mpd',
-              type: 'application/dash+xml'
-            },
-            {
-              src: 'rtmp://localhost/show/flv:' + streaming.streamName + '_high',
-              type: 'rtmp/mp4'
-            }
-          ]
-        };
-      } else if(streaming.status == 'encoded') {
-        media = {
-          sources: [
-            {
-              src: '/videos/' + streaming.streamName + '/720p.mp4',
-              type: 'video/mp4'
-            }
-          ]
-        };
-      }
-      return media;
-    }, function() {
-      return JSON.stringify(arguments);
-    });
   }
 ]);

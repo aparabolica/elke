@@ -9,26 +9,8 @@
 <section id="streamings" ng-show="streamings.length">
   <div class="container">
     <div class="twelve columns">
-      <h2>Streamings</h2>
       <ul class="streaming-list" ng-controller="StreamCtrl">
-        <li ng-repeat="streaming in streamings">
-          <h3>{{streaming.title}}</h3>
-          <p>Status: {{streaming.status}}</p>
-          <div class="stream-info" ng-show="streaming.status == 'live'">
-            <p>Streaming url:</p>
-            <pre><code>{{getStreamURL(streaming)}}</code></pre>
-            <p>Stream name:</p>
-            <pre><code>{{streaming.streamName}}</code></pre>
-          </div>
-          <a ng-click="deleteStream(streaming)" href="javascript:void(0);" ng-hide="streaming.status == 'streaming'">Delete</a>
-          <a ng-click="goLive(streaming)" href="javascript:void(0);" ng-show="streaming.status == 'pending'">Go live</a>
-          <div class="video-container" ng-show="streaming.status == 'streaming' || streaming.status == 'encoded'">
-            <vjs-video-container vjs-ratio="16:9" vjs-media="getMedia(streaming)">
-              <video class="video-js vjs-default-skin" controls preload="auto">
-              </video>
-            </vjs-video-container>
-          </div>
-        </li>
+        <li ng-repeat="streaming in streamings" streaming-item="streaming"></li>
       </ul>
     </div>
   </div>
