@@ -17,9 +17,6 @@ angular.module('elke')
         scope.goLive = function(streaming) {
           service.patch(streaming._id, {status: 'live'});
         };
-        scope.getStreamURL = function(streaming) {
-          return 'rtmp://localhost/live?key=' + streaming.liveKey;
-        }
       }
     }
   }
@@ -29,7 +26,7 @@ angular.module('elke')
   function() {
     return {
       restrict: 'A',
-      link: function(scope,element,attrs) {
+      link: function(scope, element, attrs) {
         var ratio = attrs.ratio ? attrs.ratio.split(':') : false;
         function applyRatio() {
           if(ratio) {
@@ -50,9 +47,27 @@ angular.module('elke')
   }
 ])
 
+.directive('elkeMedia', [
+  function() {
+    return {
+      restrict: 'A',
+      scope: {
+        'streaming': '=elkeMedia'
+      },
+      templateUrl: '/views/stream/media.html',
+      link: function(scope, element, attrs) {
+        scope.streamUrl = '';
+        scope.$watch('streaming.liveKey', function(liveKey) {
+          if(liveKey)
+            scope.streamUrl = 'rtmp://localhost/live?key=' + liveKey;
+        });
+      }
+    };
+  }
+])
+
 .directive('elkePlayer', [
-  '$interval',
-  function($interval) {
+  function() {
     return {
       restrict: 'AC',
       scope: {
@@ -93,12 +108,12 @@ angular.module('elke')
         });
         //listen for when the vjs-media object changes
         scope.$on('vjsVideoReady', function (e, data) {
-          console.log('video id:' + data.id);
-          console.log('video.js player instance:' + data.player);
-          console.log('video.js controlBar instance:' + data.controlBar);
+          // console.log('video id:' + data.id);
+          // console.log('video.js player instance:' + data.player);
+          // console.log('video.js controlBar instance:' + data.controlBar);
         });
         scope.$on('vjsVideoMediaChanged', function (e, data) {
-            console.log('vjsVideoMediaChanged event was fired');
+          // console.log('vjsVideoMediaChanged event was fired');
         });
       }
     }

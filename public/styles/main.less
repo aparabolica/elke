@@ -90,33 +90,61 @@ a {
   .streaming-info {
     padding: 2rem 0;
   }
-  .streaming-media {
-    background: #a44883;
-    position: relative;
-    overflow: auto;
-    .status {
-      position: absolute;
-      top: 0;
-      right: 0;
-    }
-    .stream-data {
-      margin: 2rem;
-      float: left;
-      p {
-        margin: 0;
-      }
-    }
+  h3 {
+    font-size: 2em;
+    margin: 0 0 2rem;
+  }
+}
+
+.elke-media {
+  background: #a44883;
+  position: relative;
+  overflow: auto;
+  &.status-live {
+    -webkit-animation: colorbox 1s ease-in-out infinite alternate;
+    -moz-animation: colorbox 1s ease-in-out infinite alternate;
+    animation: colorbox 1s ease-in-out infinite alternate;
   }
   .status {
-    float: right;
+    position: absolute;
+    top: 0;
+    right: 0;
     border-bottom: 1px solid rgba(255,255,255,0.2);
     border-left: 1px solid rgba(255,255,255,0.2);
     padding: 1rem;
     line-height: 1;
   }
-  h3 {
-    font-size: 2em;
-    margin: 0 0 2rem;
+  .stream-data {
+    margin: 2rem;
+    float: left;
+    p {
+      margin: 0;
+    }
+  }
+}
+
+@-webkit-keyframes colorbox {
+  from {
+    background: #a44883;
+  }
+  to {
+    background: #ba5495;
+  }
+}
+@-moz-keyframes colorbox {
+  from {
+    background: #a44883;
+  }
+  to {
+    background: #ba5495;
+  }
+}
+@keyframes colorbox {
+  from {
+    background: #a44883;
+  }
+  to {
+    background: #ba5495;
   }
 }
 

@@ -1,0 +1,22 @@
+<div class="elke-media status-{{streaming.status}}" ratio="16:9">
+  <div class="stream-data-container" ng-hide="streaming.status == 'encoded' || streaming.status == 'streaming'">
+    <div class="stream-data">
+      <div ng-show="streaming.status == 'live' && streamUrl">
+        <h3>You are ready to go live!</h3>
+        <p>URL</p>
+        <pre><code>{{streamUrl}}</code></pre>
+        <p>Stream name</p>
+        <pre><code>{{streaming.streamName}}</code></pre>
+      </div>
+      <div ng-show="streaming.status == 'pending'">
+        <h3>Pending streaming</h3>
+        <p>Click to go live and receive instructions</p>
+      </div>
+      <div ng-show="streaming.status == 'encoding'">
+        <h3>Encoding</h3>
+        <p>Video will be available soon.</p>
+      </div>
+    </div>
+  </div>
+  <div class="streaming-player" elke-player streaming="streaming"></div>
+</div>

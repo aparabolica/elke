@@ -4,24 +4,12 @@
       <div class="streaming-info">
         <h3>{{streaming.title}}</h3>
         <a ui-sref="main.stream({id: streaming._id})">Details</a>
-        <a ng-click="deleteStream(streaming)" href="javascript:void(0);" ng-hide="streaming.status == 'streaming'">Delete</a>
         <a ng-click="goLive(streaming)" href="javascript:void(0);" ng-show="streaming.status == 'pending'">Go live</a>
+        <a ng-click="deleteStream(streaming)" href="javascript:void(0);" ng-hide="streaming.status == 'streaming'">Delete</a>
       </div>
     </div>
     <div class="eight columns">
-      <div class="streaming-media" ratio="16:9">
-        <p class="status" ng-hide="streaming.status == 'encoded'">{{streaming.status}}</p>
-        <div class="stream-data-container" ng-show="streaming.status == 'live'">
-          <div class="stream-data">
-            <h3>You are ready to go live!</h3>
-            <p>URL</p>
-            <pre><code>{{getStreamURL(streaming)}}</code></pre>
-            <p>Stream name</p>
-            <pre><code>{{streaming.streamName}}</code></pre>
-          </div>
-        </div>
-        <div class="streaming-player" elke-player streaming="streaming"></div>
-      </div>
+      <div class="streaming-media" elke-media="streaming"></div>
     </div>
   </div>
 </div>
