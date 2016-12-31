@@ -12,7 +12,8 @@ angular.module('elke')
       link: function(scope, element, attrs) {
         var service = $feathers.service('streamings');
         scope.deleteStream = function(streaming) {
-          service.remove(streaming._id);
+          if(confirm('Are you sure?'))
+            service.remove(streaming._id);
         };
         scope.goLive = function(streaming) {
           service.patch(streaming._id, {status: 'live'});

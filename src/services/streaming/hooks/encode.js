@@ -8,10 +8,14 @@ module.exports = () => hooks => {
 
   const service = hooks.app.service('streamings');
   const dir = process.env.DATA;
+
   let streaming;
 
   const getName = () => {
     return streaming.streamName;
+  };
+  const getOriginalInput = () => {
+    return dir + '/' + getName() + '.flv';
   };
   const getOutput = ver => {
     return dir + '/' + getName() + '/' + ver;
@@ -43,15 +47,26 @@ module.exports = () => hooks => {
       });
     });
   };
-  const encode = () => {
+  const createScreenshots = () => {
     return new Promise((resolve,reject) => {
       ffmpeg()
-        .input(dir + '/' + getName() + '.flv')
-        // Thumbs
+        .input(getOriginalInput())
         .screenshots({
           count: 4,
           folder: getOutput('thumbs')
         })
+        .on('end', () => {
+          resolve();
+        })
+        .on('error', err => {
+          reject(err);
+        });
+    });
+  };
+  const encode = () => {
+    return new Promise((resolve,reject) => {
+      ffmpeg()
+        .input(getOriginalInput())
         // 720p
         .output(getOutput('720p.mp4'))
           .size('?x720')
@@ -113,6 +128,7 @@ module.exports = () => hooks => {
     init()
       .then(getStreaming)
       .then(createDir)
+      .then(createScreenshots)
       .then(encode)
       .then(moveOriginal)
       .then(res)
