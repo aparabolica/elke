@@ -33,7 +33,8 @@ module.exports = () => hooks => {
   };
   const createDir = () => {
     return new Promise((resolve,reject) => {
-      exec('mkdir -p ' + dir + '/' + getName(), (err, stdout, stderr) => {
+      var cmd = 'mkdir -p ' + dir + '/' + getName() + '/thumbs';
+      exec(cmd, (err, stdout, stderr) => {
         if(err !== null) {
           reject(err);
         } else {
@@ -46,6 +47,11 @@ module.exports = () => hooks => {
     return new Promise((resolve,reject) => {
       ffmpeg()
         .input(dir + '/' + getName() + '.flv')
+        // Thumbs
+        .screenshots({
+          count: 4,
+          folder: getOutput('thumbs')
+        })
         // 720p
         .output(getOutput('720p.mp4'))
           .size('?x720')
@@ -55,25 +61,28 @@ module.exports = () => hooks => {
           .audioBitrate('128k')
           .format('mp4')
         // 480p
-        .output(getOutput('480p.mp4'))
-          .size('?x480')
-          .videoBitrate('1024k')
-        // 360p
-        .output(getOutput('360p.mp4'))
-          .size('?x360')
-          .videoBitrate('768k')
-          .audioBitrate('96k')
-        // 240p
-        .output(getOutput('240p.mp4'))
-          .size('?x240')
-          .videoBitrate('256k')
-          .audioBitrate('32k')
-        // Audio only
-        .output(getOutput('audio.mp3'))
-          .noVideo()
-          .audioBitrate('128k')
+        // .output(getOutput('480p.mp4'))
+        //   .size('?x480')
+        //   .videoBitrate('1024k')
+        // // 360p
+        // .output(getOutput('360p.mp4'))
+        //   .size('?x360')
+        //   .videoBitrate('768k')
+        //   .audioBitrate('96k')
+        // // 240p
+        // .output(getOutput('240p.mp4'))
+        //   .size('?x240')
+        //   .videoBitrate('256k')
+        //   .audioBitrate('32k')
+        // // Audio only
+        // .output(getOutput('audio.mp3'))
+        //   .noVideo()
+        //   .audioBitrate('128k')
         .on('end', () => {
           resolve(hooks);
+        })
+        .on('progress', info => {
+          // console.log('Encoding progress: ' + info.percent + '%');
         })
         .on('error', err => {
           reject(err);

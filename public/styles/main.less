@@ -36,22 +36,26 @@ a.button {
 }
 
 code {
-  background: #202020;
-  border-color: #333;
+  background: rgba(0,0,0,0.2);
+  border-color: rgba(0,0,0,0.2);
 }
 
 a {
-  color: #e8cb60;
+  color: #e860b6;
   text-decoration: none;
+  border-bottom: 1px solid #e860b6;
   &:hover {
-    color: #c7ae54;
+    color: #a64e85;
   }
 }
 
 .container {
-  max-width: 1280px;
+  width: auto;
+  margin: 0 2rem;
+  max-width: none;
   .container {
     width: auto;
+    margin: 0;
   }
 }
 
@@ -79,15 +83,34 @@ a {
 }
 
 .streaming-item {
-  border: 1px solid #333;
+  border-top: 1px solid #333;
+  border-bottom: 1px solid #333;
   margin: 0 0 2rem;
   position: relative;
   .streaming-info {
-    padding: 2rem 0 2rem 2rem;
+    padding: 2rem 0;
+  }
+  .streaming-media {
+    background: #a44883;
+    position: relative;
+    overflow: auto;
+    .status {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+    .stream-data {
+      margin: 2rem;
+      float: left;
+      p {
+        margin: 0;
+      }
+    }
   }
   .status {
     float: right;
-    border: 1px solid #ddd;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    border-left: 1px solid rgba(255,255,255,0.2);
     padding: 1rem;
     line-height: 1;
   }
@@ -111,6 +134,7 @@ a {
     a {
       color: #fff;
       text-decoration: none;
+      border-bottom-color: #fff;
     }
   }
   #mastnav {

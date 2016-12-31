@@ -25,8 +25,34 @@ angular.module('elke')
   }
 ])
 
-.directive('elkePlayer', [
+.directive('ratio', [
   function() {
+    return {
+      restrict: 'A',
+      link: function(scope,element,attrs) {
+        var ratio = attrs.ratio ? attrs.ratio.split(':') : false;
+        function applyRatio() {
+          if(ratio) {
+            element.css({
+              height: (element[0].offsetWidth * parseInt(ratio[1]) / parseInt(ratio[0])) + 'px'
+            });
+          } else {
+            element.css({height: null});
+          }
+        }
+        applyRatio();
+        window.addEventListener('resize', applyRatio);
+        scope.$on('$destroy', function() {
+          window.removeEventListener('resize', applyRatio);
+        });
+      }
+    }
+  }
+])
+
+.directive('elkePlayer', [
+  '$interval',
+  function($interval) {
     return {
       restrict: 'AC',
       scope: {
@@ -34,10 +60,10 @@ angular.module('elke')
       },
       templateUrl: '/views/stream/player.html',
       link: function(scope, element, attrs) {
-        scope.getMedia = _.memoize(function(streaming) {
-          var media;
+        scope.media = {};
+        scope.$watch('streaming', function(streaming) {
           if(streaming.status == 'streaming') {
-            media = {
+            scope.media = {
               sources: [
                 {
                   src: 'http://localhost:8080/live/hls/' + streaming.streamName + '.m3u8',
@@ -54,18 +80,25 @@ angular.module('elke')
               ]
             };
           } else if(streaming.status == 'encoded') {
-            media = {
+            scope.media = {
               sources: [
                 {
-                  src: '/videos/' + streaming.streamName + '/480p.mp4',
+                  src: '/videos/' + streaming.streamName + '/720p.mp4',
                   type: 'video/mp4'
                 }
-              ]
+              ],
+              poster: '/videos/' + streaming.streamName + '/thumbs/tn_3.png'
             };
           }
-          return media;
-        }, function() {
-          return JSON.stringify(arguments);
+        });
+        //listen for when the vjs-media object changes
+        scope.$on('vjsVideoReady', function (e, data) {
+          console.log('video id:' + data.id);
+          console.log('video.js player instance:' + data.player);
+          console.log('video.js controlBar instance:' + data.controlBar);
+        });
+        scope.$on('vjsVideoMediaChanged', function (e, data) {
+            console.log('vjsVideoMediaChanged event was fired');
         });
       }
     }
