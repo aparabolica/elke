@@ -82,17 +82,17 @@ angular.module('elke')
             scope.media = {
               sources: [
                 {
-                  src: 'http://localhost:8080/live/hls/' + streaming.streamName + '.m3u8',
-                  type: 'application/x-mpegURL'
-                },
-                {
-                  src: 'http://localhost:8080/live/dash/' + streaming.streamName + '_high/index.mpd',
-                  type: 'application/dash+xml'
-                },
-                {
-                  src: 'rtmp://localhost/show/flv:' + streaming.streamName + '_high',
+                  src: 'rtmp://localhost:1935/live/flv:' + streaming.streamName,
                   type: 'rtmp/mp4'
                 }
+                // {
+                //   src: 'http://localhost:8080/live/hls/' + streaming.streamName + '.m3u8',
+                //   type: 'application/x-mpegURL'
+                // },
+                // {
+                //   src: 'http://localhost:8080/live/dash/' + streaming.streamName + '_high/index.mpd',
+                //   type: 'application/dash+xml'
+                // }
               ]
             };
           } else if(streaming.status == 'encoded') {
@@ -108,14 +108,14 @@ angular.module('elke')
           }
         });
         //listen for when the vjs-media object changes
-        scope.$on('vjsVideoReady', function (e, data) {
-          // console.log('video id:' + data.id);
-          // console.log('video.js player instance:' + data.player);
-          // console.log('video.js controlBar instance:' + data.controlBar);
-        });
-        scope.$on('vjsVideoMediaChanged', function (e, data) {
-          // console.log('vjsVideoMediaChanged event was fired');
-        });
+        // scope.$on('vjsVideoReady', function (e, data) {
+        //   console.log('video id:' + data.id);
+        //   console.log('video.js player instance:' + data.player);
+        //   console.log('video.js controlBar instance:' + data.controlBar);
+        // });
+        // scope.$on('vjsVideoMediaChanged', function (e, data) {
+        //   console.log('vjsVideoMediaChanged event was fired');
+        // });
       }
     }
   }
