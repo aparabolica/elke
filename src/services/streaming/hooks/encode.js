@@ -63,41 +63,16 @@ module.exports = () => hooks => {
         });
     });
   };
-  const encode = () => {
+  const createAudio = () => {
     return new Promise((resolve,reject) => {
       ffmpeg()
         .input(getOriginalInput())
-        // 720p
-        .output(getOutput('720p.mp4'))
-          .size('?x720')
-          .videoCodec('libx264')
-          .videoBitrate('1920k')
-          .audioCodec('libmp3lame')
-          .audioBitrate('128k')
-          .format('mp4')
-        // 480p
-        // .output(getOutput('480p.mp4'))
-        //   .size('?x480')
-        //   .videoBitrate('1024k')
-        // // 360p
-        // .output(getOutput('360p.mp4'))
-        //   .size('?x360')
-        //   .videoBitrate('768k')
-        //   .audioBitrate('96k')
-        // // 240p
-        // .output(getOutput('240p.mp4'))
-        //   .size('?x240')
-        //   .videoBitrate('256k')
-        //   .audioBitrate('32k')
-        // // Audio only
-        // .output(getOutput('audio.mp3'))
-        //   .noVideo()
-        //   .audioBitrate('128k')
+        .output(getOutput('audio.mp3'))
+        .noVideo()
+        .audioCodec('libmp3lame')
+        .audioBitrate('128k')
         .on('end', () => {
-          resolve(hooks);
-        })
-        .on('progress', info => {
-          // console.log('Encoding progress: ' + info.percent + '%');
+          resolve();
         })
         .on('error', err => {
           reject(err);
@@ -105,6 +80,55 @@ module.exports = () => hooks => {
         .run();
     });
   };
+  const createVideo = (format) => {
+    let size, videoBitrate, audioBitrate;
+    switch (format) {
+      case '720p':
+        size = '?x720';
+        videoBitrate = '1920k';
+        audioBitrate = '128k';
+        break;
+      case '480p':
+        size = '?x480';
+        videoBitrate = '1024k';
+        audioBitrate = '128k';
+        break;
+      case '360p':
+        size = '?x360';
+        videoBitrate = '768k';
+        audioBitrate = '96k';
+        break;
+      case '240p':
+        size = '?x240';
+        videoBitrate = '256k';
+        audioBitrate = '32k';
+        break;
+      default:
+    }
+    return () => {
+      return new Promise((resolve, reject) => {
+        ffmpeg()
+        .input(getOriginalInput())
+        .output(getOutput(format + '.mp4'))
+        .videoCodec('libx264')
+        .audioCodec('libmp3lame')
+        .format('mp4')
+        .size(size)
+        .videoBitrate(videoBitrate)
+        .audioBitrate(audioBitrate)
+        .on('progress', info => {
+          // console.log('Encoding progress: ' + info.percent + '%');
+        })
+        .on('end', () => {
+          resolve();
+        })
+        .on('error', err => {
+          reject(err);
+        })
+        .run();
+      });
+    }
+  }
   const moveOriginal = () => {
     return new Promise((resolve,reject) => {
       exec('mv ' + dir + '/' + getName() + '.flv ' + dir + '/' + getName() + '/', (err, stdout, stderr) => {
@@ -114,7 +138,7 @@ module.exports = () => hooks => {
           resolve();
         }
       });
-    })
+    });
   };
   const res = err => {
     if(err) {
@@ -129,7 +153,8 @@ module.exports = () => hooks => {
       .then(getStreaming)
       .then(createDir)
       .then(createScreenshots)
-      .then(encode)
+      .then(createVideo('720p'))
+      .then(createAudio)
       .then(moveOriginal)
       .then(res)
       .catch(res);
