@@ -2,12 +2,15 @@
 const streaming = require('./streaming');
 const authentication = require('./authentication');
 const user = require('./user');
-const mongoose = require('mongoose');
+const Sequelize = require('sequelize');
 module.exports = function() {
   const app = this;
 
-  mongoose.connect(app.get('mongodb'));
-  mongoose.Promise = global.Promise;
+  const sequelize = new Sequelize(app.get('postgres'), {
+    dialect: 'postgres',
+    logging: false
+  });
+  app.set('sequelize', sequelize);
 
   app.configure(authentication);
   app.configure(user);

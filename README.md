@@ -4,7 +4,7 @@
 
 ## About
 
-A node platform to manage livestreaming with nginx RTMP module.
+A node/postgres platform to manage livestreaming with nginx RTMP module.
 
 This project uses [Feathers](http://feathersjs.com). An open source web framework for building modern real-time applications.
 
@@ -18,7 +18,14 @@ $ docker-compose up
 
 ## Scaffolding
 
-Feathers has a powerful command line interface. Here are a few things it can do:
+Feathers has a powerful command line interface. Connect to `elke` container:
+
+```
+$ docker ps # grab elke container name or id
+$ docker exec -it [container name or id] /bin/bash
+```
+
+Here are a few things it can do:
 
 ```
 $ npm install -g feathers-cli             # Install Feathers CLI

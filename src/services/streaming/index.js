@@ -1,7 +1,7 @@
 'use strict';
 
 const serveStatic = require('feathers').static;
-const service = require('feathers-mongoose');
+const service = require('feathers-sequelize');
 const streaming = require('./streaming-model');
 const hooks = require('./hooks');
 const url = require('url');
@@ -10,7 +10,7 @@ module.exports = function() {
   const app = this;
 
   const options = {
-    Model: streaming,
+    Model: streaming(app.get('sequelize')),
     paginate: {
       default: 5,
       max: 25
@@ -34,7 +34,7 @@ module.exports = function() {
         }
       }).then(function(queryRes) {
         if(queryRes.data.length) {
-          service.patch(queryRes.data[0]._id, {status: 'streaming'}).then(function() {
+          service.patch(queryRes.data[0].id, {status: 'streaming'}).then(function() {
             res.sendStatus(200);
           }).catch(function() {
             res.sendStatus(403);
@@ -66,7 +66,7 @@ module.exports = function() {
           status: 'streaming'
         }
       }).then(function(queryRes) {
-        service.patch(queryRes.data[0]._id, {status: 'finished'});
+        service.patch(queryRes.data[0].id, {status: 'finished'});
         res.sendStatus(200);
       }).catch(function(err) {
         res.sendStatus(200);

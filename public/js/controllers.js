@@ -33,14 +33,14 @@ angular.module('elke')
     streamingService.on('removed', function(data) {
       $scope.$apply(function() {
         $scope.streamings = _.filter($scope.streamings, function(streaming) {
-          return streaming._id !== data._id;
+          return streaming.id !== data.id;
         });
       });
     });
     streamingService.on('updated', function(data) {
       $scope.$apply(function() {
         $scope.streamings.forEach(function(streaming, i) {
-          if(streaming._id == data._id) {
+          if(streaming.id == data.id) {
             $scope.streamings[i] = data;
           }
         });
@@ -49,7 +49,7 @@ angular.module('elke')
     streamingService.on('patched', function(data) {
       $scope.$apply(function() {
         $scope.streamings.forEach(function(streaming, i) {
-          if(streaming._id == data._id) {
+          if(streaming.id == data.id) {
             $scope.streamings[i] = data;
           }
         });
@@ -87,7 +87,7 @@ angular.module('elke')
         userService.create($scope.credentials)
           .then(auth)
           .catch(function(err) {
-            console.log('Error creating user', err);
+            console.error('Error creating user', err);
           });
       } else {
         auth();
@@ -108,7 +108,7 @@ angular.module('elke')
       service.create($scope.streaming).then(function(res) {
         $state.go('main.home');
       }).catch(function(err) {
-        console.log(err);
+        console.error('Error getting streaming', err);
       });
     };
   }

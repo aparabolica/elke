@@ -9,11 +9,15 @@ nginx:
     - ./nginx/nginx.conf:/config/nginx.conf
     - ./data/video:/data
 db:
-  image: mongo
+  image: postgres:9.6
   ports:
-    - 27017:27017
+    - 5432:5432
   volumes:
-    - ./data/db:/data/db
+    - ./data/postgresql:/var/lib/postgresql
+  environment:
+    POSTGRES_USER: 'docker'
+    POSTGRES_PASSWORD: 'docker'
+    POSTGRES_DB: 'elke'
 elke:
   build: .
   links:

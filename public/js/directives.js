@@ -13,10 +13,10 @@ angular.module('elke')
         var service = $feathers.service('streamings');
         scope.deleteStream = function(streaming) {
           if(confirm('Are you sure?'))
-            service.remove(streaming._id);
+            service.remove(streaming.id);
         };
         scope.goLive = function(streaming) {
-          service.patch(streaming._id, {status: 'live'});
+          service.patch(streaming.id, {status: 'live'});
         };
       }
     }

@@ -1,34 +1,36 @@
 'use strict';
 
-// streaming-model.js - A mongoose model
+// streaming-model.js - A sequelize model
 //
-// See http://mongoosejs.com/docs/models.html
+// See http://docs.sequelizejs.com/en/latest/docs/models-definition/
 // for more of what you can do here.
 
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const Sequelize = require('sequelize');
 
-const streamingSchema = new Schema({
-  title: { type: String, required: true },
-  description: { type: String },
-  status: {
-    type: String,
-    enum: [
-      'pending',
-      'live',
-      'streaming',
-      'finished',
-      'encoding',
-      'encoded'
-    ],
-    default: 'pending'
-  },
-  liveKey: { type: String },
-  streamName: { type: String },
-  createdAt: { type: Date, 'default': Date.now },
-  updatedAt: { type: Date, 'default': Date.now }
-});
+module.exports = (sequelize) => {
+  const streaming = sequelize.define('streamings', {
+    title: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    description: {
+      type: Sequelize.TEXT
+    },
+    status: {
+      type: Sequelize.ENUM('pending', 'live', 'streaming', 'finished', 'encoding', 'encoded'),
+      defaultValue: 'pending'
+    },
+    liveKey: {
+      type: Sequelize.STRING
+    },
+    streamName: {
+      type: Sequelize.STRING
+    }
+  }, {
+    freezeTableName: true
+  });
 
-const streamingModel = mongoose.model('streaming', streamingSchema);
+  streaming.sync();
 
-module.exports = streamingModel;
+  return streaming;
+};

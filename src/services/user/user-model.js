@@ -1,21 +1,32 @@
 'use strict';
 
-// user-model.js - A mongoose model
+// user-model.js - A sequelize model
 //
-// See http://mongoosejs.com/docs/models.html
+// See http://docs.sequelizejs.com/en/latest/docs/models-definition/
 // for more of what you can do here.
 
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const Sequelize = require('sequelize');
 
-const userSchema = new Schema({
-  email: {type: String, required: true, unique: true},
-  password: { type: String, required: true },
+module.exports = (sequelize) => {
+  const user = sequelize.define('users', {
+    facebookId: {
+      type: Sequelize.STRING,
+      allowNull: true
+    },
+    email: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      unique: true
+    },
+    password: {
+      type: Sequelize.STRING,
+      allowNull: false
+    }
+  }, {
+    freezeTableName: true
+  });
 
-  createdAt: { type: Date, 'default': Date.now },
-  updatedAt: { type: Date, 'default': Date.now }
-});
+  user.sync();
 
-const userModel = mongoose.model('user', userSchema);
-
-module.exports = userModel;
+  return user;
+};
