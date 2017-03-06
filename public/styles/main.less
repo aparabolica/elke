@@ -17,6 +17,7 @@ input[type=text],
 input[type=email],
 input[type=password],
 input[type=submit],
+textarea,
 button,
 .button,
 a.button {
@@ -51,7 +52,7 @@ a {
 
 .container {
   width: auto;
-  margin: 0 2rem;
+  margin: 0 4%;
   max-width: none;
   .container {
     width: auto;
@@ -127,6 +128,29 @@ a {
     p {
       margin: 0;
     }
+  }
+}
+
+.comment-list {
+  .comment-author {
+    margin: 0;
+    font-size: .8em;
+    color: #666;
+  }
+  .comment-body {
+    margin: 0;
+  }
+  .comment-item {
+    border: 1px solid #333;
+    margin: 0 0 1rem;
+    padding: 1rem;
+  }
+}
+
+.comment-form {
+  input,textarea {
+    width: 100%;
+    display: block;
   }
 }
 

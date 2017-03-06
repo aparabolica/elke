@@ -111,4 +111,47 @@ angular.module('elke')
       }
     }
   }
+])
+
+.directive('elkeComments', [
+  '$feathers',
+  function($feathers) {
+    return {
+      restrict: 'A',
+      scope: {
+        'streaming': '=elkeComments'
+      },
+      templateUrl: '/views/stream/comments.html',
+      link: function(scope, element, attrs) {
+        var service = $feathers.service('comments');
+        scope.newComment = {
+          streamingId: scope.streaming.id
+        };
+        scope.comments = [];
+        service.find({
+          query: {
+            streamingId: scope.streaming.id.toString(),
+            $sort: { createdAt: 1 }
+          }
+        }).then(function(res) {
+          scope.$apply(function() {
+            scope.comments = res.data;
+          });
+        }).catch(function(err) {
+          console.error('Could not retrieve comments', err);
+        });
+        service.on('created', function(data) {
+          scope.$apply(function() {
+            if(data.streamingId == scope.streaming.id)
+              scope.comments.push(data);
+          });
+        });
+        scope.sendComment = function() {
+          service.create(scope.newComment).then(function() {
+            scope.newComment.comment = '';
+          });
+        }
+      }
+    };
+  }
 ]);

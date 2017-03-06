@@ -1,5 +1,6 @@
 'use strict';
 const streaming = require('./streaming');
+const comment = require('./comment');
 const authentication = require('./authentication');
 const user = require('./user');
 const Sequelize = require('sequelize');
@@ -15,4 +16,5 @@ module.exports = function() {
   app.configure(authentication);
   app.configure(user);
   app.configure(streaming);
+  app.configure(comment);
 };

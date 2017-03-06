@@ -1,6 +1,6 @@
 'use strict';
 
-// streaming-model.js - A sequelize model
+// comment-model.js - A sequelize model
 //
 // See http://docs.sequelizejs.com/en/latest/docs/models-definition/
 // for more of what you can do here.
@@ -8,34 +8,27 @@
 const Sequelize = require('sequelize');
 
 module.exports = (sequelize) => {
-  const streaming = sequelize.define('streamings', {
-    title: {
+  const comment = sequelize.define('comments', {
+    author: {
       type: Sequelize.STRING,
       allowNull: false
     },
-    description: {
+    comment: {
       type: Sequelize.TEXT
     },
-    status: {
-      type: Sequelize.ENUM('pending', 'live', 'streaming', 'finished', 'encoding', 'encoded'),
-      defaultValue: 'pending'
-    },
-    liveKey: {
-      type: Sequelize.STRING
-    },
-    streamName: {
+    streamingId: {
       type: Sequelize.STRING
     }
   }, {
     classMethods: {
       associate: function(models) {
-        streaming.hasMany(models.comments);
+        comment.belongsTo(models.streamings);
       }
     },
     freezeTableName: true
   });
 
-  streaming.sync();
+  comment.sync();
 
-  return streaming;
+  return comment;
 };
