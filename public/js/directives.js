@@ -85,22 +85,14 @@ angular.module('elke')
                   src: 'rtmp://localhost/live/' + streaming.streamName,
                   type: 'rtmp/flv'
                 }
-                // {
-                //   src: 'http://localhost:8080/live/hls/' + streaming.streamName + '.m3u8',
-                //   type: 'application/x-mpegURL'
-                // },
-                // {
-                //   src: 'http://localhost:8080/live/dash/' + streaming.streamName + '_high/index.mpd',
-                //   type: 'application/dash+xml'
-                // }
               ]
             };
           } else if(streaming.status == 'encoded') {
             scope.media = {
               sources: [
                 {
-                  src: '/videos/' + streaming.streamName + '/720p.mp4',
-                  type: 'video/mp4'
+                  src: 'rtmp://localhost/archive/&mp4:' + streaming.streamName + '/720p.mp4',
+                  type: 'rtmp/mp4'
                 }
               ],
               poster: '/videos/' + streaming.streamName + '/thumbs/tn_3.png'
