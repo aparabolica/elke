@@ -82,7 +82,7 @@ angular.module('elke')
             scope.media = {
               sources: [
                 {
-                  src: 'rtmp://localhost/show/' + streaming.streamName,
+                  src: 'rtmp://localhost/live/' + streaming.streamName,
                   type: 'rtmp/flv'
                 }
                 // {
