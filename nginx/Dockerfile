@@ -30,17 +30,17 @@ RUN apt-get update && \
 
 # Get nginx source
 WORKDIR /src
-RUN wget http://nginx.org/download/nginx-1.10.2.tar.gz && \
-  tar zxf nginx-1.10.2.tar.gz && \
-  rm nginx-1.10.2.tar.gz && \
+RUN wget http://nginx.org/download/nginx-1.10.3.tar.gz && \
+  tar zxf nginx-1.10.3.tar.gz && \
+  rm nginx-1.10.3.tar.gz && \
 # Get nginx-rtmp module
-  wget https://github.com/arut/nginx-rtmp-module/archive/v1.1.10.tar.gz && \
-  tar zxf v1.1.10.tar.gz && \
-  rm v1.1.10.tar.gz
+  wget https://github.com/arut/nginx-rtmp-module/archive/v1.1.11.tar.gz && \
+  tar zxf v1.1.11.tar.gz && \
+  rm v1.1.11.tar.gz
 
 # Compile nginx
-WORKDIR /src/nginx-1.10.2
-RUN ./configure --add-module=/src/nginx-rtmp-module-1.1.10 \
+WORKDIR /src/nginx-1.10.3
+RUN ./configure --add-module=/src/nginx-rtmp-module-1.1.11 \
   --user=www \
   --with-file-aio \
   --with-debug \
