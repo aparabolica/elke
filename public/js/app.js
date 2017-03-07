@@ -2,7 +2,7 @@ angular.module('elke', [
   'ui.router',
   'ngFeathers',
   'vjs.video'
-])
+]);
 
 angular.element(document).ready(function() {
   if(self != top) {

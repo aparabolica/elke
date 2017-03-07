@@ -18,8 +18,10 @@ angular.module('elke')
   '$state',
   '$feathers',
   'App',
+  'Elke',
   'Streamings',
-  function($scope, $state, $feathers, App, Streamings) {
+  function($scope, $state, $feathers, App, Elke, Streamings) {
+    Elke.set('host', App.data.host);
     if(!App.data.active) {
       $state.go('main.auth', {register: true});
     }

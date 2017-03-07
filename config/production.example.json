@@ -1,12 +1,12 @@
 {
-  "host": "elke",
-  "port": 3030,
-  "postgres": "postgres://docker:docker@db:5432/elke",
+  "host": "elke-app.feathersjs.com",
+  "port": 80,
+  "postgres": "DATABASE_URL",
   "public": "../public/",
   "auth": {
     "idField": "id",
     "token": {
-      "secret": "/pdFjU9aU7r38h2oViuWDm1YK9CeqtuYI+bEOcsJp4Ak1SS5Fa9TYWjGIMLjHai9WZE6wDgyoL9LLkbVeB33ZQ=="
+      "secret": "FEATHERS_AUTH_SECRET"
     },
     "local": {},
     "facebook": {

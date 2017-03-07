@@ -1,35 +1,41 @@
 'use strict';
 
-var appStatus = {
+const appInfo = {
   active: true
 };
 
-const active = function(app) {
-  return new Promise(function(resolve, reject) {
-    var userService = app.service('users');
-    userService.find({$limit: 1}).then(function(users) {
+const hasUsers = (app) => {
+  return new Promise((resolve, reject) => {
+    let userService = app.service('users');
+    userService.find({$limit: 1}).then(users => {
       if(users.total == 0) {
-        appStatus.active = false;
+        appInfo.active = false;
       } else {
-        appStatus.active = true;
+        appInfo.active = true;
       }
       resolve();
     });
   });
 };
 
-const send = function(res) {
-  return function() {
-    res.send(appStatus);
-  }
+const getHost = function(app) {
+  return new Promise((resolve, reject) => {
+    appInfo.host = app.get('host');
+    resolve();
+  });
+}
+
+const send = res => {
+  return () => {
+    res.send(appInfo);
+  };
 };
 
-module.exports = function(app) {
-
-  return function(req, res) {
-    active(app)
+module.exports = app => {
+  return (req, res) => {
+    hasUsers(app)
+    getHost(app)
       .then(send(res))
       .catch(send(res));
-  }
-
-}
+  };
+};

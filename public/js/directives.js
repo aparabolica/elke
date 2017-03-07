@@ -49,7 +49,8 @@ angular.module('elke')
 ])
 
 .directive('elkeMedia', [
-  function() {
+  'Elke',
+  function(Elke) {
     return {
       restrict: 'A',
       scope: {
@@ -60,7 +61,7 @@ angular.module('elke')
         scope.streamUrl = '';
         scope.$watch('streaming.liveKey', function(liveKey) {
           if(liveKey)
-            scope.streamUrl = 'rtmp://localhost/live?key=' + liveKey;
+            scope.streamUrl = 'rtmp://' + Elke.get('host') + '/live?key=' + liveKey;
         });
       }
     };
@@ -68,7 +69,8 @@ angular.module('elke')
 ])
 
 .directive('elkePlayer', [
-  function() {
+  'Elke',
+  function(Elke) {
     return {
       restrict: 'AC',
       scope: {
@@ -76,13 +78,14 @@ angular.module('elke')
       },
       templateUrl: '/views/stream/player.html',
       link: function(scope, element, attrs) {
+        var host = Elke.get('host');
         scope.media = {};
         scope.$watch('streaming', function(streaming) {
           if(streaming.status == 'streaming') {
             scope.media = {
               sources: [
                 {
-                  src: 'rtmp://localhost/live/' + streaming.streamName,
+                  src: 'rtmp://' + host + '/live/' + streaming.streamName,
                   type: 'rtmp/flv'
                 }
               ]
@@ -91,7 +94,7 @@ angular.module('elke')
             scope.media = {
               sources: [
                 {
-                  src: 'rtmp://localhost/archive/&mp4:' + streaming.streamName + '/720p.mp4',
+                  src: 'rtmp://' + host + '/archive/&mp4:' + streaming.streamName + '/720p.mp4',
                   type: 'rtmp/mp4'
                 }
               ],
