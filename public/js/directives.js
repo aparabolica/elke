@@ -79,6 +79,7 @@ angular.module('elke')
       templateUrl: '/views/stream/player.html',
       link: function(scope, element, attrs) {
         var host = Elke.get('host');
+        console.log(host);
         scope.media = {};
         scope.$watch('streaming', function(streaming) {
           if(streaming.status == 'streaming') {
@@ -116,6 +117,26 @@ angular.module('elke')
   }
 ])
 
+.directive('matchHeight', [
+  '$document',
+  '$window',
+  function($document, $window) {
+    return {
+      restrict: 'AC',
+      link: function(scope, element, attrs) {
+        var matchHeight = function() {
+          console.log($document.find('#' + attrs.matchHeight));
+          element.css({
+            height: $document.find('#' + attrs.matchHeight).offsetHeight
+          });
+        };
+        angular.element($window).bind('resize', matchHeight);
+        matchHeight();
+      }
+    }
+  }
+])
+
 .directive('elkeComments', [
   '$feathers',
   function($feathers) {
@@ -134,7 +155,8 @@ angular.module('elke')
         service.find({
           query: {
             streamingId: scope.streaming.id.toString(),
-            $sort: { createdAt: 1 }
+            $sort: { createdAt: -1 },
+            $limit: 10
           }
         }).then(function(res) {
           scope.$apply(function() {

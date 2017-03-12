@@ -4,12 +4,14 @@
       <h2>{{streaming.title}}</h2>
     </div>
   </div>
-  <div class="container">
-    <div class="eight columns">
-      <div class="streaming-media" elke-media="streaming"></div>
-    </div>
-    <div class="four columns">
-      <div class="streaming-comments" elke-comments="streaming"></div>
+  <div class="streaming-content">
+    <div class="container">
+      <div class="eight columns">
+        <div id="main-video" class="streaming-media" elke-media="streaming"></div>
+      </div>
+      <div class="four columns">
+        <div class="streaming-comments" elke-comments="streaming" match-height="main-video"></div>
+      </div>
     </div>
   </div>
 </article>

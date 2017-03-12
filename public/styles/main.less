@@ -106,9 +106,10 @@ a {
     -moz-animation: colorbox 1s ease-in-out infinite alternate;
     animation: colorbox 1s ease-in-out infinite alternate;
   }
-  &.status-encodedm,
+  &.status-encoded,
   &.status-streaming {
     overflow: hidden;
+    background: transparent;
   }
   .status {
     position: absolute;
@@ -132,6 +133,7 @@ a {
 }
 
 .comment-list {
+  overflow: auto;
   .comment-author {
     margin: 0;
     font-size: .8em;
