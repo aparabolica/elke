@@ -172,6 +172,7 @@ angular.module('elke')
       },
       templateUrl: '/views/stream/comments.html',
       link: function(scope, element, attrs) {
+        var commentList = element[0].querySelector('.comment-list');
         var service = $feathers.service('comments');
         scope.newComment = {
           streamingId: scope.streaming.id
@@ -191,9 +192,19 @@ angular.module('elke')
           console.error('Could not retrieve comments', err);
         });
         service.on('created', function(data) {
+          var scrollToBottom = false;
           scope.$apply(function() {
-            if(data.streamingId == scope.streaming.id)
+            if(data.streamingId == scope.streaming.id) {
+              var totalScroll = commentList.clientHeight + commentList.scrollTop;
+              if(commentList.scrollHeight - totalScroll < 60)
+                scrollToBottom = true;
               scope.comments.push(data);
+              setTimeout(function() {
+                if(scrollToBottom) {
+                  commentList.scrollTop = commentList.scrollHeight;
+                }
+              }, 50);
+            }
           });
         });
         scope.sendComment = function() {
