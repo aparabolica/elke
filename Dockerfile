@@ -22,7 +22,8 @@ RUN set -x \
 # Setup env
 ENV APP_USER=node
 ENV HOME=/home/node
-ENV DATA=/data
+ENV DATA_DIR=/data
+ENV LOGS_DIR=/logs
 
 # Install global npm dependencies
 RUN npm install -g nodemon bower
@@ -32,8 +33,12 @@ WORKDIR $HOME/elke
 COPY package.json bower.json $HOME/elke/
 
 # Create video data directory and assign permissions
-RUN mkdir /data && chown $APP_USER:$APP_USER /data
-VOLUME /data
+RUN mkdir $DATA_DIR && chown $APP_USER:$APP_USER $DATA_DIR
+VOLUME $DATA_DIR
+
+# Create nginx logs directory and assign permissions
+RUN mkdir $LOGS_DIR && chown $APP_USER:$APP_USER $LOGS_DIR
+VOLUME $LOGS_DIR
 
 # Install app
 RUN chown -R $APP_USER:$APP_USER $HOME/elke && \

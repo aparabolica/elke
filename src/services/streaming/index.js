@@ -19,7 +19,7 @@ module.exports = function() {
 
   const StreamingService = service(options);
 
-  app.use('/videos', serveStatic( process.env.DATA ));
+  app.use('/videos', serveStatic( process.env.DATA_DIR ));
 
   app.use('/streamings/control/publish', function(req, res, next) {
     var service = app.service('streamings');

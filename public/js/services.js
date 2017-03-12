@@ -9,10 +9,14 @@ angular.module('elke')
         return config[key];
       },
       get: function(key) {
-        if(config[key])
-          return config[key];
-        else
-          return false;
+        if(typeof key != 'undefined') {
+          if(config[key])
+            return config[key];
+          else
+            return false;
+        } else {
+          return config;
+        }
       }
     }
   }

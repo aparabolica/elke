@@ -7,7 +7,7 @@ const errors = require('feathers-errors');
 module.exports = () => hooks => {
 
   const service = hooks.app.service('streamings');
-  const dir = process.env.DATA;
+  const dir = process.env.DATA_DIR;
 
   let streaming;
 

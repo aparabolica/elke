@@ -78,10 +78,15 @@ angular.module('elke')
       },
       templateUrl: '/views/stream/player.html',
       link: function(scope, element, attrs) {
-        var host = Elke.get('host');
-        console.log(host);
+        scope.$watch(function() {
+          return Elke.get('host');
+        }, function(host) {
+          scope.host = host;
+        });
         scope.media = {};
-        scope.$watch('streaming', function(streaming) {
+        scope.$watchGroup(['streaming', 'host'], function(values) {
+          var streaming = values[0];
+          var host = values[1];
           if(streaming.status == 'streaming') {
             scope.media = {
               sources: [
@@ -122,16 +127,34 @@ angular.module('elke')
   '$window',
   function($document, $window) {
     return {
-      restrict: 'AC',
+      restrict: 'A',
       link: function(scope, element, attrs) {
         var matchHeight = function() {
-          console.log($document.find('#' + attrs.matchHeight));
+          var height = document.getElementById(attrs.matchHeight).offsetHeight;
           element.css({
-            height: $document.find('#' + attrs.matchHeight).offsetHeight
+            height: height + 'px'
           });
         };
+        element.css({
+          height: '0px'
+        });
+        setTimeout(function() {
+          matchHeight();
+        }, 100);
         angular.element($window).bind('resize', matchHeight);
-        matchHeight();
+      }
+    }
+  }
+])
+
+.directive('scrollToBottom', [
+  function() {
+    return {
+      restrict: 'AC',
+      link: function(scope, element, attrs) {
+        setTimeout(function() {
+          element[0].scrollTop = element[0].scrollHeight;
+        }, 150);
       }
     }
   }
@@ -139,7 +162,8 @@ angular.module('elke')
 
 .directive('elkeComments', [
   '$feathers',
-  function($feathers) {
+  '$document',
+  function($feathers, $document) {
     return {
       restrict: 'A',
       scope: {
@@ -174,6 +198,7 @@ angular.module('elke')
         scope.sendComment = function() {
           service.create(scope.newComment).then(function() {
             scope.newComment.comment = '';
+            document.getElementById('comment-field').focus();
           });
         }
       }

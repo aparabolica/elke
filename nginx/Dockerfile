@@ -3,15 +3,23 @@ FROM ubuntu:trusty
 EXPOSE 1935
 EXPOSE 80
 
-ENV DATA=/data
+ENV DATA_DIR=/data
+ENV LOGS_DIR=/logs
 ENV WWW_USER=www
 
 # Add www user
 RUN useradd --user-group --shell /bin/bash www
 
 # Create directories
-RUN mkdir -p /src /config /logs /data && chown -R www:www /data
-VOLUME /data
+RUN mkdir -p \
+  /src \
+  /config \
+  $DATA_DIR \
+  $LOGS_DIR && \
+  chown -R www:www $DATA_DIR $LOGS_DIR
+
+VOLUME $DATA_DIR
+VOLUME $LOGS_DIR
 
 # Update and upgrade packages
 RUN apt-get update && \

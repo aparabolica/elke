@@ -3,13 +3,24 @@ angular.module('elke')
 .controller('AppCtrl', [
   '$scope',
   '$feathers',
-  function($scope, $feathers) {
+  'App',
+  'Elke',
+  function($scope, $feathers, App, Elke) {
+    $scope.user = null;
     $scope.$watch(function() {
       return $feathers.get('user');
     }, function(user) {
       $scope.user = user;
     });
     $scope.logout = $feathers.logout;
+    // Store app data in global service
+    for(var key in App.data) {
+      Elke.set(key, App.data[key]);
+    }
+    // Redirect to registration if app not active (no users found in db)
+    if(!Elke.get('active')) {
+      $state.go('main.auth', {register: true});
+    }
   }
 ])
 
@@ -21,10 +32,6 @@ angular.module('elke')
   'Elke',
   'Streamings',
   function($scope, $state, $feathers, App, Elke, Streamings) {
-    Elke.set('host', App.data.host);
-    if(!App.data.active) {
-      $state.go('main.auth', {register: true});
-    }
     var streamingService = $feathers.service('streamings');
     $scope.streamings = Streamings.data;
     streamingService.on('created', function(data) {
@@ -65,10 +72,10 @@ angular.module('elke')
   '$feathers',
   '$state',
   '$stateParams',
-  'App',
-  function($scope, $feathers, $state, $stateParams, App) {
+  'Elke',
+  function($scope, $feathers, $state, $stateParams, Elke) {
     var userService = $feathers.service('users');
-    $scope.app = App.data;
+    $scope.active = Elke.get('active');
     if($stateParams.register) {
       $scope.registration = true;
     }

@@ -52,6 +52,7 @@ angular.module('elke')
     .state('main', {
       abstract: true,
       template: '<ui-view/>',
+      controller: 'AppCtrl',
       resolve: {
         App: [
           '$http',
