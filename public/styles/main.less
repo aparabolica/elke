@@ -1,4 +1,5 @@
 @main-color: #d2452b;
+@secondary-color: #fff;
 
 body {
   font-family: 'Space Mono', monospace;
@@ -23,7 +24,7 @@ textarea,
 button,
 .button,
 a.button {
-  background: #f0f0f0;
+  background: transparent;
   border: 1px solid #ddd;
   color: #333;
   font-weight: 400;
@@ -39,8 +40,8 @@ a.button {
 }
 
 code {
-  background: rgba(0,0,0,0.2);
-  border-color: rgba(0,0,0,0.2);
+  background: rgba(0,0,0,0.05);
+  border-color: rgba(0,0,0,0.05);
 }
 
 a {
@@ -87,9 +88,9 @@ a {
 
 .streaming-item {
   border-top: 1px solid #f0f0f0;
-  border-bottom: 1px solid #f0f0f0;
-  margin: 0 0 2rem;
+  margin: 0;
   position: relative;
+  overflow: hidden;
   .streaming-info {
     padding: 2rem 0;
   }
@@ -100,14 +101,21 @@ a {
 }
 
 .elke-media {
-  background: @main-color;
+  background: @secondary-color;
   position: relative;
+  border-left: 1px solid #f0f0f0;
+  border-right: 1px solid #f0f0f0;
   overflow: auto;
-  &.status-live {
-    -webkit-animation: colorbox 1s ease-in-out infinite alternate;
-    -moz-animation: colorbox 1s ease-in-out infinite alternate;
-    animation: colorbox 1s ease-in-out infinite alternate;
-  }
+  transition: all .3s ease-in-out;
+  // box-shadow: 0 0 100px rgba(0,0,0,0.05);
+  // &:hover {
+  //   box-shadow: 0 0 120px rgba(0,0,0,0.07);
+  // }
+  // &.status-live {
+  //   -webkit-animation: colorbox 1s ease-in-out infinite alternate;
+  //   -moz-animation: colorbox 1s ease-in-out infinite alternate;
+  //   animation: colorbox 1s ease-in-out infinite alternate;
+  // }
   &.status-encoded,
   &.status-streaming {
     overflow: hidden;
@@ -117,16 +125,16 @@ a {
     position: absolute;
     top: 0;
     right: 0;
-    border-bottom: 1px solid rgba(255,255,255,0.2);
-    border-left: 1px solid rgba(255,255,255,0.2);
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    border-left: 1px solid rgba(0,0,0,0.2);
     padding: 1rem;
     line-height: 1;
   }
   .stream-data {
     margin: 2rem;
-    color: #fff;
+    color: #999;
     h3 {
-      border-bottom: 1px solid rgba(255,255,255,0.2);
+      border-bottom: 1px solid #f0f0f0;
       padding-bottom: 2rem;
     }
     p {
@@ -162,32 +170,32 @@ a {
 
 @-webkit-keyframes colorbox {
   from {
-    background: @main-color;
+    box-shadow: 0 0 120px #ccfffa;
   }
   to {
-    background: lighten(@main-color, 10%);
+    box-shadow: 0 0 120px #f0f0f0;
   }
 }
 @-moz-keyframes colorbox {
   from {
-    background: @main-color;
+    box-shadow: 0 0 120px #ccfffa;
   }
   to {
-    background: lighten(@main-color, 10%);
+    box-shadow: 0 0 120px #f0f0f0;
   }
 }
 @keyframes colorbox {
   from {
-    background: @main-color;
+    box-shadow: 0 0 120px #ccfffa;
   }
   to {
-    background: lighten(@main-color, 10%);
+    box-shadow: 0 0 120px #f0f0f0;
   }
 }
 
 #masthead {
   z-index: 10;
-  background: #111;
+  background: @main-color;
   color: #fff;
   padding: 1rem 0;
   margin: 0 0 2rem;
@@ -201,6 +209,9 @@ a {
       text-decoration: none;
       border-bottom-color: #fff;
     }
+  }
+  a {
+    color: #fff;
   }
   #mastnav {
     float: right;

@@ -10,6 +10,11 @@ angular.module('elke')
       },
       templateUrl: '/views/stream/list-item.html',
       link: function(scope, element, attrs) {
+        scope.$watch(function() {
+          return $feathers.get('user');
+        }, function(user) {
+          scope.user = user;
+        });
         var service = $feathers.service('streamings');
         scope.deleteStream = function(streaming) {
           if(confirm('Are you sure?'))
@@ -78,20 +83,13 @@ angular.module('elke')
       },
       templateUrl: '/views/stream/player.html',
       link: function(scope, element, attrs) {
-        scope.$watch(function() {
-          return Elke.get('host');
-        }, function(host) {
-          scope.host = host;
-        });
         scope.media = {};
-        scope.$watchGroup(['streaming', 'host'], function(values) {
-          var streaming = values[0];
-          var host = values[1];
+        scope.$watch('streaming', function(streaming) {
           if(streaming.status == 'streaming') {
             scope.media = {
               sources: [
                 {
-                  src: 'rtmp://' + host + '/live/' + streaming.streamName,
+                  src: 'rtmp://' + Elke.get('host') + '/live/' + streaming.streamName,
                   type: 'rtmp/flv'
                 }
               ]
@@ -100,7 +98,7 @@ angular.module('elke')
             scope.media = {
               sources: [
                 {
-                  src: 'rtmp://' + host + '/archive/&mp4:' + streaming.streamName + '/720p.mp4',
+                  src: 'rtmp://' + Elke.get('host') + '/archive/&mp4:' + streaming.streamName + '/720p.mp4',
                   type: 'rtmp/mp4'
                 }
               ],
@@ -141,7 +139,10 @@ angular.module('elke')
         setTimeout(function() {
           matchHeight();
         }, 100);
-        angular.element($window).bind('resize', matchHeight);
+        window.addEventListener('resize', matchHeight);
+        scope.$on('$destroy', function() {
+          window.removeEventListener('resize', matchHeight);
+        });
       }
     }
   }

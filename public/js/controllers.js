@@ -6,7 +6,7 @@ angular.module('elke')
   'App',
   'Elke',
   function($scope, $feathers, App, Elke) {
-    $scope.user = null;
+    $scope.user = false;
     $scope.$watch(function() {
       return $feathers.get('user');
     }, function(user) {
@@ -28,10 +28,9 @@ angular.module('elke')
   '$scope',
   '$state',
   '$feathers',
-  'App',
   'Elke',
   'Streamings',
-  function($scope, $state, $feathers, App, Elke, Streamings) {
+  function($scope, $state, $feathers, Elke, Streamings) {
     var streamingService = $feathers.service('streamings');
     $scope.streamings = Streamings.data;
     streamingService.on('created', function(data) {
@@ -117,7 +116,7 @@ angular.module('elke')
       service.create($scope.streaming).then(function(res) {
         $state.go('main.home');
       }).catch(function(err) {
-        console.error('Error getting streaming', err);
+        console.error('Error creating streaming', err);
       });
     };
   }

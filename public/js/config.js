@@ -51,7 +51,7 @@ angular.module('elke')
     $stateProvider
     .state('main', {
       abstract: true,
-      template: '<ui-view/>',
+      templateUrl: '/views/main.html',
       controller: 'AppCtrl',
       resolve: {
         App: [

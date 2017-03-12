@@ -2,7 +2,7 @@
   <div class="container">
     <div class="twelve columns">
       <h2>Own your video network</h2>
-      <p><a class="button" ui-sref="main.streamEdit">Create new stream</a></p>
+      <p><a class="button" ui-sref="main.streamEdit" ng-show="user">Create new stream</a></p>
     </div>
   </div>
 </div>
@@ -10,7 +10,7 @@
   <div class="container">
     <div class="twelve columns">
       <ul class="streaming-list">
-        <li ng-repeat="streaming in streamings" streaming-item="streaming"></li>
+        <li ng-repeat="streaming in streamings" streaming-item="streaming" ng-show="streaming.status == 'streaming' || streaming.status == 'encoded' || user"></li>
       </ul>
     </div>
   </div>
