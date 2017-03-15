@@ -3,7 +3,7 @@
 const assert = require('assert');
 const app = require('../../../src/app');
 
-describe('streamings service', function() {
+describe('streaming service', function() {
   it('registered the streamings service', () => {
     assert.ok(app.service('streamings'));
   });
