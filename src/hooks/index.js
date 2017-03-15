@@ -9,8 +9,9 @@ const crypto = require('crypto');
 // on hooks.
 
 exports.createRandom = (property = false, numBytes = 20) => hook => {
-  if(property)
+  if(property) {
     hook.data[property] = crypto.randomBytes(numBytes).toString('hex');
+  }
   return hook;
 };
 

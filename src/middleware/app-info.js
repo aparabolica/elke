@@ -7,7 +7,7 @@ const appInfo = {
 const hasUsers = (app) => new Promise((resolve, reject) => {
   let userService = app.service('users');
   userService.find({$limit: 1}).then(users => {
-    if(users.total == 0) {
+    if(users.total === 0) {
       appInfo.active = false;
     } else {
       appInfo.active = true;
@@ -27,7 +27,7 @@ const send = res => () => {
 
 module.exports = app => (req, res) => {
   hasUsers(app)
-  getHost(app)
+    .then(getHost(app))
     .then(send(res))
     .catch(send(res));
 };
