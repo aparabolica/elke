@@ -5,7 +5,7 @@ const hooks = require('feathers-hooks-common');
 const auth = require('feathers-authentication').hooks;
 const handleStatus = require('./handle-status');
 const encode = require('./encode');
-const parsePrivate = require('./parse-private');
+const removePrivate = require('./remove-private');
 
 exports.before = {
   all: [],
@@ -40,11 +40,16 @@ exports.before = {
 
 exports.after = {
   all: [
-    hooks.iff(hooks.isNot(globalHooks.loggedIn()), hooks.remove('liveKey'))
+    hooks.iff(
+      hooks.every(
+        hooks.isNot(globalHooks.loggedIn()),
+        hooks.isProvider('external')
+      ),
+      hooks.remove('liveKey'),
+      removePrivate()
+    )
   ],
-  find: [
-    // parsePrivate()
-  ],
+  find: [],
   get: [],
   create: [],
   update: [],

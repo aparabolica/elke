@@ -1,13 +1,19 @@
 <div class="elke-media status-{{streaming.status}}" ratio="16:9">
   <div class="stream-data-container" ng-hide="streaming.status == 'encoded' || streaming.status == 'streaming'">
     <div class="stream-data">
-      <div ng-show="streaming.status == 'live' && streamUrl">
-        <h3>You are ready to go live!</h3>
-        <p>URL</p>
-        <pre><code>{{streamUrl}}</code></pre>
-        <p>Stream name</p>
-        <pre><code>{{streaming.streamName}}</code></pre>
-        <p>As soon as you connect your live encoding app, this message will disappear.</p>
+      <div ng-show="streaming.status == 'live'">
+        <div ng-show="streamUrl">
+          <h3>You are ready to go live!</h3>
+          <p>URL</p>
+          <pre><code>{{streamUrl}}</code></pre>
+          <p>Stream name</p>
+          <pre><code>{{streaming.streamName}}</code></pre>
+          <p>As soon as you connect your live encoding app, this message will disappear.</p>
+        </div>
+        <div ng-hide="streamUrl">
+          <h3>Error</h3>
+          <p>Streaming url not found</p>
+        </div>
       </div>
       <div ng-show="streaming.status == 'pending'">
         <h3>Pending streaming</h3>

@@ -11,75 +11,59 @@ module.exports = () => hooks => {
 
   let streaming;
 
-  const getName = () => {
-    return streaming.streamName;
-  };
-  const getOriginalInput = () => {
-    return dir + '/' + getName() + '.flv';
-  };
-  const getOutput = ver => {
-    return dir + '/' + getName() + '/' + ver;
-  };
-  const init = () => {
-    return new Promise((resolve,reject) => {
-      service.patch(hooks.id, {status: 'encoding'})
-        .then(resolve)
-        .catch(reject);
-    });
-  };
-  const getStreaming = () => {
-    return new Promise((resolve,reject) => {
-      service.get(hooks.id).then(data => {
-        streaming = data;
+  const getName = () => streaming.streamName;
+  const getOriginalInput = () => dir + '/' + getName() + '.flv';
+  const getOutput = ver => dir + '/' + getName() + '/' + ver;
+  const init = () => new Promise((resolve,reject) => {
+    service.patch(hooks.id, {status: 'encoding'})
+      .then(resolve)
+      .catch(reject);
+  });
+  const getStreaming = () => new Promise((resolve,reject) => {
+    service.get(hooks.id).then(data => {
+      streaming = data;
+      resolve();
+    }).catch(reject);
+  });
+  const createDir = () => new Promise((resolve,reject) => {
+    var cmd = 'mkdir -p ' + dir + '/' + getName() + '/thumbs';
+    exec(cmd, (err, stdout, stderr) => {
+      if(err !== null) {
+        reject(err);
+      } else {
         resolve();
-      }).catch(reject);
+      }
     });
-  };
-  const createDir = () => {
-    return new Promise((resolve,reject) => {
-      var cmd = 'mkdir -p ' + dir + '/' + getName() + '/thumbs';
-      exec(cmd, (err, stdout, stderr) => {
-        if(err !== null) {
-          reject(err);
-        } else {
-          resolve();
-        }
+  });
+  const createScreenshots = () => new Promise((resolve,reject) => {
+    ffmpeg()
+      .input(getOriginalInput())
+      .screenshots({
+        count: 4,
+        folder: getOutput('thumbs')
+      })
+      .on('end', () => {
+        resolve();
+      })
+      .on('error', err => {
+        reject(err);
       });
-    });
-  };
-  const createScreenshots = () => {
-    return new Promise((resolve,reject) => {
-      ffmpeg()
-        .input(getOriginalInput())
-        .screenshots({
-          count: 4,
-          folder: getOutput('thumbs')
-        })
-        .on('end', () => {
-          resolve();
-        })
-        .on('error', err => {
-          reject(err);
-        });
-    });
-  };
-  const createAudio = () => {
-    return new Promise((resolve,reject) => {
-      ffmpeg()
-        .input(getOriginalInput())
-        .output(getOutput('audio.mp3'))
-        .noVideo()
-        .audioCodec('libmp3lame')
-        .audioBitrate('128k')
-        .on('end', () => {
-          resolve();
-        })
-        .on('error', err => {
-          reject(err);
-        })
-        .run();
-    });
-  };
+  });
+  const createAudio = () => new Promise((resolve,reject) => {
+    ffmpeg()
+      .input(getOriginalInput())
+      .output(getOutput('audio.mp3'))
+      .noVideo()
+      .audioCodec('libmp3lame')
+      .audioBitrate('128k')
+      .on('end', () => {
+        resolve();
+      })
+      .on('error', err => {
+        reject(err);
+      })
+      .run();
+  });
   const createVideo = (format) => {
     let size, videoBitrate, audioBitrate;
     switch (format) {
@@ -105,41 +89,37 @@ module.exports = () => hooks => {
         break;
       default:
     }
-    return () => {
-      return new Promise((resolve, reject) => {
-        ffmpeg()
-        .input(getOriginalInput())
-        .output(getOutput(format + '.mp4'))
-        .videoCodec('libx264')
-        .audioCodec('libmp3lame')
-        .format('mp4')
-        .size(size)
-        .videoBitrate(videoBitrate)
-        .audioBitrate(audioBitrate)
-        .on('progress', info => {
-          // console.log('Encoding progress: ' + info.percent + '%');
-        })
-        .on('end', () => {
-          resolve();
-        })
-        .on('error', err => {
-          reject(err);
-        })
-        .run();
-      });
-    }
-  }
-  const moveOriginal = () => {
-    return new Promise((resolve,reject) => {
-      exec('mv ' + dir + '/' + getName() + '.flv ' + dir + '/' + getName() + '/', (err, stdout, stderr) => {
-        if(err !== null) {
-          reject(err);
-        } else {
-          resolve();
-        }
-      });
+    return () => new Promise((resolve, reject) => {
+      ffmpeg()
+      .input(getOriginalInput())
+      .output(getOutput(format + '.mp4'))
+      .videoCodec('libx264')
+      .audioCodec('libmp3lame')
+      .format('mp4')
+      .size(size)
+      .videoBitrate(videoBitrate)
+      .audioBitrate(audioBitrate)
+      .on('progress', info => {
+        // console.log('Encoding progress: ' + info.percent + '%');
+      })
+      .on('end', () => {
+        resolve();
+      })
+      .on('error', err => {
+        reject(err);
+      })
+      .run();
     });
   };
+  const moveOriginal = () => new Promise((resolve,reject) => {
+    exec('mv ' + dir + '/' + getName() + '.flv ' + dir + '/' + getName() + '/', (err, stdout, stderr) => {
+      if(err !== null) {
+        reject(err);
+      } else {
+        resolve();
+      }
+    });
+  });
   const res = err => {
     if(err) {
       console.log(err);
