@@ -148,7 +148,7 @@ module.exports = () => hooks => {
     }
     return hooks;
   };
-  if(hooks.data.status == 'finished') {
+  if(hooks.params.action == 'encode') {
     init()
       .then(getStreaming)
       .then(createDir)

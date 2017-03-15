@@ -111,13 +111,21 @@ angular.module('elke')
   'Streaming',
   function($scope, $state, $feathers, Streaming) {
     var service = $feathers.service('streamings');
-    $scope.streaming = Streaming;
+    $scope.streaming = angular.copy(Streaming);
+    $scope.save = function() {
+      if(Streaming.id) {
+        service.patch(Streaming.id, $scope.streaming).then(function(streaming) {
+          $scope.streaming = streaming;
+        });
+      } else {
+        service.create($scope.streaming).then(function(res) {
+          $state.go('main.home');
+        }).catch(function(err) {
+          console.error('Error creating streaming', err);
+        });
+      }
+    }
     $scope.createStream = function() {
-      service.create($scope.streaming).then(function(res) {
-        $state.go('main.home');
-      }).catch(function(err) {
-        console.error('Error creating streaming', err);
-      });
     };
   }
 ]);

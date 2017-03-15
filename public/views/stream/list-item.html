@@ -4,6 +4,7 @@
       <div class="streaming-info">
         <h3>{{streaming.title}}</h3>
         <a ui-sref="main.stream({id: streaming.id})">Details</a>
+        <a ui-sref="main.streamEdit({id: streaming.id})" ng-show="user">Edit</a>
         <a ng-click="goLive(streaming)" href="javascript:void(0);" ng-show="streaming.status == 'pending' && user">Go live</a>
         <a ng-click="deleteStream(streaming)" href="javascript:void(0);" ng-hide="streaming.status == 'streaming' || !user">Delete</a>
       </div>

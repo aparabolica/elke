@@ -16,6 +16,13 @@ h4 {
   letter-spacing: 0;
 }
 
+.input-field {
+  label {
+    font-weight: normal;
+    color: #999;
+  }
+}
+
 input[type=text],
 input[type=email],
 input[type=password],
@@ -108,15 +115,6 @@ a {
   border-right: 1px solid #f0f0f0;
   overflow: auto;
   transition: all .3s ease-in-out;
-  // box-shadow: 0 0 100px rgba(0,0,0,0.05);
-  // &:hover {
-  //   box-shadow: 0 0 120px rgba(0,0,0,0.07);
-  // }
-  // &.status-live {
-  //   -webkit-animation: colorbox 1s ease-in-out infinite alternate;
-  //   -moz-animation: colorbox 1s ease-in-out infinite alternate;
-  //   animation: colorbox 1s ease-in-out infinite alternate;
-  // }
   &.status-encoded,
   &.status-streaming {
     overflow: hidden;
@@ -170,31 +168,6 @@ a {
   }
 }
 
-@-webkit-keyframes colorbox {
-  from {
-    box-shadow: 0 0 120px #ccfffa;
-  }
-  to {
-    box-shadow: 0 0 120px #f0f0f0;
-  }
-}
-@-moz-keyframes colorbox {
-  from {
-    box-shadow: 0 0 120px #ccfffa;
-  }
-  to {
-    box-shadow: 0 0 120px #f0f0f0;
-  }
-}
-@keyframes colorbox {
-  from {
-    box-shadow: 0 0 120px #ccfffa;
-  }
-  to {
-    box-shadow: 0 0 120px #f0f0f0;
-  }
-}
-
 #masthead {
   z-index: 10;
   background: @main-color;
@@ -218,5 +191,17 @@ a {
   #mastnav {
     float: right;
     text-transform: lowercase;
+  }
+}
+
+.single-streaming {
+  .streaming-content {
+    .streaming-media {
+      margin: 0 0 2rem;
+    }
+    .streaming-description {
+      // max-width: 700px;
+      font-size: 1.2em;
+    }
   }
 }

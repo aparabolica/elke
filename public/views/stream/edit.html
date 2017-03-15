@@ -1,9 +1,16 @@
 <section id="stream">
   <div class="container">
     <div class="six columns offset-by-three">
-      <form class="main-form" ng-submit="createStream()">
+      <form class="main-form" ng-submit="save()">
         <h2>Create new stream</h2>
-        <input type="text" placeholder="Stream title" ng-model="streaming.title" />
+        <p class="input-field">
+          <label for="stream_title_field">Stream title</label>
+          <input id="stream_title_field" type="text" ng-model="streaming.title" autofocus />
+        </p>
+        <p class="input-field">
+          <label for="stream_description_field">Description</label>
+          <textarea id="stream_description_field" ng-model="streaming.description"></textarea>
+        </p>
         <input type="submit" value="Create stream" />
       </form>
     </div>

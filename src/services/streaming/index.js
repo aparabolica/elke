@@ -66,7 +66,7 @@ module.exports = function() {
           status: 'streaming'
         }
       }).then(function(queryRes) {
-        service.patch(queryRes.data[0].id, {status: 'finished'});
+        service.patch(queryRes.data[0].id, {status: 'finished'}, {action: 'encode'});
         res.sendStatus(200);
       }).catch(function(err) {
         res.sendStatus(200);

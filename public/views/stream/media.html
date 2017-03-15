@@ -12,6 +12,7 @@
       <div ng-show="streaming.status == 'pending'">
         <h3>Pending streaming</h3>
         <p>Click to go live and receive instructions</p>
+        <a ng-click="goLive(streaming)" href="javascript:void(0);" ng-show="user">Go live</a>
       </div>
       <div ng-show="streaming.status == 'encoding'">
         <h3>Encoding</h3>
