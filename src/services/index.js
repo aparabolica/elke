@@ -3,6 +3,7 @@ const streaming = require('./streaming');
 const comment = require('./comment');
 const authentication = require('./authentication');
 const user = require('./user');
+const peer = require('./peer');
 const Sequelize = require('sequelize');
 module.exports = function() {
   const app = this;
@@ -17,4 +18,5 @@ module.exports = function() {
   app.configure(user);
   app.configure(streaming);
   app.configure(comment);
+  app.configure(peer);
 };

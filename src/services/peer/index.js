@@ -5,6 +5,7 @@ const Proto = require('uberproto');
 
 module.exports = function() {
   const app = this;
+  // app.use('/peer', peer(app, {debug: true}));
   Proto.mixin({
     setup (server) {
       app.use('/peer', peer(server, {debug: true}));
