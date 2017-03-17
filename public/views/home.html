@@ -6,6 +6,20 @@
     </div>
   </div>
 </div>
+<section id="peer-test">
+  <p>Your ID: {{myID}}</p>
+  <div class="peer-test-video">
+    <h2>Their video</h2>
+    <video id="their-video" autoplay ng-src="{{streamUrl}}"></video>
+  </div>
+  <div class="peer-test-video">
+    <h2>My video</h2>
+    <video id="my-video" muted="true" autoplay ng-src="{{myVideo}}"></video>
+  </div>
+  <input type="text" ng-model="callToID" />
+  <button ng-click="makeCall()">Make call</button>
+  <button ng-click="endCall()">End call</button>
+</section>
 <section id="streamings" ng-show="streamings.length">
   <div class="container">
     <div class="twelve columns">

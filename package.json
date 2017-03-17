@@ -37,6 +37,7 @@
     "feathers-socketio": "^1.5.2",
     "fluent-ffmpeg": "^2.1.0",
     "passport": "^0.3.2",
+    "peer": "^0.2.8",
     "pg": "^6.1.4",
     "pg-hstore": "^2.3.2",
     "sequelize": "^3.30.2",
