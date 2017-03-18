@@ -18,5 +18,5 @@ module.exports = function() {
   app.configure(user);
   app.configure(streaming);
   app.configure(comment);
-  app.configure(peer);
+  // app.configure(peer);
 };

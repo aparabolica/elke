@@ -5,6 +5,9 @@ angular.module('elke')
   function($feathersProvider) {
     $feathersProvider.setAuthStorage(window.localStorage);
     $feathersProvider.setEndpoint('');
+    $feathersProvider.setSocketOpts({
+      path: '/ws/'
+    });
     $feathersProvider.useSocket(true);
   }
 ])

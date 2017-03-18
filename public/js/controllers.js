@@ -26,50 +26,14 @@ angular.module('elke')
   }
 ])
 
-.controller('HomeCtrl', [
+.controller('PeerCtrl', [
   '$scope',
-  '$state',
-  '$feathers',
-  'Elke',
-  'Streamings',
-  function($scope, $state, $feathers, Elke, Streamings) {
-    var streamingService = $feathers.service('streamings');
-    $scope.streamings = Streamings.data;
-    streamingService.on('created', function(data) {
-      $scope.$apply(function() {
-        $scope.streamings.push(data);
-      });
-    });
-    streamingService.on('removed', function(data) {
-      $scope.$apply(function() {
-        $scope.streamings = _.filter($scope.streamings, function(streaming) {
-          return streaming.id !== data.id;
-        });
-      });
-    });
-    streamingService.on('updated', function(data) {
-      $scope.$apply(function() {
-        $scope.streamings.forEach(function(streaming, i) {
-          if(streaming.id == data.id) {
-            $scope.streamings[i] = data;
-          }
-        });
-      });
-    });
-    streamingService.on('patched', function(data) {
-      $scope.$apply(function() {
-        $scope.streamings.forEach(function(streaming, i) {
-          if(streaming.id == data.id) {
-            $scope.streamings[i] = data;
-          }
-        });
-      });
-    });
+  function($scope) {
     // Peer tests
     var peer = new Peer({
       host: 'localhost',
       port: 8080,
-      path: '/peer',
+      path: '/ws/peer',
       debug: 3
     });
     var getStream = function() {
@@ -121,6 +85,48 @@ angular.module('elke')
     $scope.endCall = function() {
       $scope.existingCall.close();
     };
+  }
+])
+
+.controller('HomeCtrl', [
+  '$scope',
+  '$state',
+  '$feathers',
+  'Elke',
+  'Streamings',
+  function($scope, $state, $feathers, Elke, Streamings) {
+    var streamingService = $feathers.service('streamings');
+    $scope.streamings = Streamings.data;
+    streamingService.on('created', function(data) {
+      $scope.$apply(function() {
+        $scope.streamings.push(data);
+      });
+    });
+    streamingService.on('removed', function(data) {
+      $scope.$apply(function() {
+        $scope.streamings = _.filter($scope.streamings, function(streaming) {
+          return streaming.id !== data.id;
+        });
+      });
+    });
+    streamingService.on('updated', function(data) {
+      $scope.$apply(function() {
+        $scope.streamings.forEach(function(streaming, i) {
+          if(streaming.id == data.id) {
+            $scope.streamings[i] = data;
+          }
+        });
+      });
+    });
+    streamingService.on('patched', function(data) {
+      $scope.$apply(function() {
+        $scope.streamings.forEach(function(streaming, i) {
+          if(streaming.id == data.id) {
+            $scope.streamings[i] = data;
+          }
+        });
+      });
+    });
   }
 ])
 

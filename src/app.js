@@ -27,7 +27,10 @@ app.use(compress())
   .use(bodyParser.urlencoded({ extended: true }))
   .configure(hooks())
   .configure(rest())
-  .configure(socketio())
+  .configure(socketio({
+    path: '/ws/',
+    wsEngine: 'uws'
+  }))
   .configure(services)
   .configure(middleware);
 
