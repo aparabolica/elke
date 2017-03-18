@@ -124,8 +124,6 @@ angular.module('elke')
           console.error('Error creating streaming', err);
         });
       }
-    }
-    $scope.createStream = function() {
     };
   }
 ]);
