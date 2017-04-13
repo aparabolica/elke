@@ -1,7 +1,7 @@
 server:
   build: ./nginx
   links:
-    - elke
+    - app
   ports:
     - 8080:80
     - 1935:1935
@@ -20,7 +20,7 @@ postgres:
 app:
   build: .
   links:
-    - db:postgres
+    - postgres:db
   command: nodemon src/
   environment:
     NODE_ENV: development
