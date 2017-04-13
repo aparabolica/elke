@@ -1,4 +1,4 @@
-nginx:
+server:
   build: ./nginx
   links:
     - elke
@@ -9,7 +9,7 @@ nginx:
     - ./nginx/nginx.conf:/config/nginx.conf
     - ./data/video:/data
     - ./data/logs:/logs
-db:
+postgres:
   image: postgres:9.6
   ports:
     - 15432:5432
@@ -17,10 +17,10 @@ db:
     POSTGRES_USER: 'docker'
     POSTGRES_PASSWORD: 'docker'
     POSTGRES_DB: 'elke'
-elke:
+app:
   build: .
   links:
-    - db
+    - db:postgres
   command: nodemon src/
   environment:
     NODE_ENV: development
