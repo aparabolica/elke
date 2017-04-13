@@ -3,6 +3,10 @@
   "port": 3030,
   "postgres": "postgres://docker:docker@db:5432/elke",
   "public": "../public/",
+  "rtmp": {
+    "host": "localhost",
+    "port": 1935
+  },
   "auth": {
     "idField": "id",
     "token": {

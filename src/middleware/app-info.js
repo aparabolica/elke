@@ -18,6 +18,7 @@ const hasUsers = (app) => new Promise((resolve, reject) => {
 
 const getHost = (app) => new Promise((resolve, reject) => {
   appInfo.host = app.get('host');
+  appInfo.rtmp = app.get('rtmp');
   resolve();
 });
 

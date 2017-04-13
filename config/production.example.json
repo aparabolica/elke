@@ -3,18 +3,15 @@
   "port": 80,
   "postgres": "DATABASE_URL",
   "public": "../public/",
+  "rtmp": {
+    "host": "nginx-rtmp.example.com",
+    "port": 1935
+  },
   "auth": {
     "idField": "id",
     "token": {
       "secret": "FEATHERS_AUTH_SECRET"
     },
-    "local": {},
-    "facebook": {
-      "clientID": "your facebook client id",
-      "clientSecret": "your facebook client secret",
-      "permissions": {
-        "scope": ["public_profile","email"]
-      }
-    }
+    "local": {}
   }
 }

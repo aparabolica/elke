@@ -25,13 +25,6 @@ ENV HOME=/home/node
 ENV DATA_DIR=/data
 ENV LOGS_DIR=/logs
 
-# Install global npm dependencies
-RUN npm install -g nodemon bower
-
-# Copy config files and assign app directory permissions
-WORKDIR $HOME/elke
-COPY package.json bower.json $HOME/elke/
-
 # Create video data directory and assign permissions
 RUN mkdir $DATA_DIR && chown $APP_USER:$APP_USER $DATA_DIR
 VOLUME $DATA_DIR
@@ -40,8 +33,13 @@ VOLUME $DATA_DIR
 RUN mkdir $LOGS_DIR && chown $APP_USER:$APP_USER $LOGS_DIR
 VOLUME $LOGS_DIR
 
-# Install app
-RUN chown -R $APP_USER:$APP_USER $HOME/elke && \
+# Copy config files and assign app directory permissions
+WORKDIR $HOME/elke
+COPY . $HOME/elke/
+
+# Install global npm dependencies and app
+RUN npm install -g nodemon bower && \
+  chown -R $APP_USER:$APP_USER $HOME/elke && \
   gosu $APP_USER:$APP_USER npm install && \
   gosu $APP_USER:$APP_USER bower install -F
 

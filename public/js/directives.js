@@ -65,8 +65,9 @@ angular.module('elke')
       link: function(scope, element, attrs) {
         scope.streamUrl = '';
         scope.$watch('streaming.liveKey', function(liveKey) {
+          var rtmp = Elke.get('rtmp');
           if(liveKey)
-            scope.streamUrl = 'rtmp://' + Elke.get('host') + '/live?key=' + liveKey;
+            scope.streamUrl = 'rtmp://' + rtmp.host + ':' + rtmp.port + '/live?key=' + liveKey;
         });
       }
     };
@@ -85,11 +86,12 @@ angular.module('elke')
       link: function(scope, element, attrs) {
         scope.media = {};
         scope.$watch('streaming', function(streaming) {
+          var rtmp = Elke.get('rtmp');
           if(streaming.status == 'streaming') {
             scope.media = {
               sources: [
                 {
-                  src: 'rtmp://' + Elke.get('host') + '/live/' + streaming.streamName,
+                  src: 'rtmp://' + rtmp.host + ':' + rtmp.port + '/live/' + streaming.streamName,
                   type: 'rtmp/flv'
                 }
               ]
@@ -98,7 +100,7 @@ angular.module('elke')
             scope.media = {
               sources: [
                 {
-                  src: 'rtmp://' + Elke.get('host') + '/archive/&mp4:' + streaming.streamName + '/720p.mp4',
+                  src: 'rtmp://' + rtmp.host + ':' + rtmp.port + '/archive/&mp4:' + streaming.streamName + '/720p.mp4',
                   type: 'rtmp/mp4'
                 }
               ],

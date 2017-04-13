@@ -2,10 +2,11 @@ angular.module('elke')
 
 .controller('AppCtrl', [
   '$scope',
+  '$state',
   '$feathers',
   'App',
   'Elke',
-  function($scope, $feathers, App, Elke) {
+  function($scope, $state, $feathers, App, Elke) {
     $scope.user = false;
     $scope.$watch(function() {
       return $feathers.get('user');
