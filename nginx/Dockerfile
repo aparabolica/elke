@@ -7,6 +7,9 @@ ENV DATA_DIR=/data
 ENV LOGS_DIR=/logs
 ENV WWW_USER=www
 
+ENV NGINX_VERSION=1.12.0
+ENV RTMP_VERSION=1.1.11
+
 # Add www user
 RUN useradd --user-group --shell /bin/bash www
 
@@ -38,20 +41,21 @@ RUN apt-get update && \
 
 # Get nginx source
 WORKDIR /src
-RUN wget http://nginx.org/download/nginx-1.10.3.tar.gz && \
-  tar zxf nginx-1.10.3.tar.gz && \
-  rm nginx-1.10.3.tar.gz && \
+RUN wget http://nginx.org/download/nginx-$NGINX_VERSION.tar.gz && \
+  tar zxf nginx-$NGINX_VERSION.tar.gz && \
+  rm nginx-$NGINX_VERSION.tar.gz && \
 # Get nginx-rtmp module
-  wget https://github.com/arut/nginx-rtmp-module/archive/v1.1.11.tar.gz && \
-  tar zxf v1.1.11.tar.gz && \
-  rm v1.1.11.tar.gz
+  wget https://github.com/arut/nginx-rtmp-module/archive/v$RTMP_VERSION.tar.gz && \
+  tar zxf v$RTMP_VERSION.tar.gz && \
+  rm v$RTMP_VERSION.tar.gz
 
 # Compile nginx
-WORKDIR /src/nginx-1.10.3
-RUN ./configure --add-module=/src/nginx-rtmp-module-1.1.11 \
+WORKDIR /src/nginx-$NGINX_VERSION
+RUN ./configure --add-module=/src/nginx-rtmp-module-$RTMP_VERSION \
   --user=www \
   --with-file-aio \
   --with-debug \
+  --with-http_realip_module \
   --conf-path=/config/nginx.conf \
   --error-log-path=/logs/error.log \
   --http-log-path=/logs/access.log && \

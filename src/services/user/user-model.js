@@ -9,10 +9,6 @@ const Sequelize = require('sequelize');
 
 module.exports = (sequelize) => {
   const user = sequelize.define('users', {
-    facebookId: {
-      type: Sequelize.STRING,
-      allowNull: true
-    },
     email: {
       type: Sequelize.STRING,
       allowNull: false,
