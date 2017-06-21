@@ -87,4 +87,4 @@ RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
 # Run nginx server
-CMD ["nginx", "-g", "dameon off;"]
+CMD ["nginx", "-g", "daemon off;"]
